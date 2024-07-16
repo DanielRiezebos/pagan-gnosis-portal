@@ -38,7 +38,17 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
-RUN install-php-extensions pdo pdo_mysql
+RUN install-php-extensions \
+        apcu \
+        intl \
+        opcache \
+        zip \
+        sockets \
+        amqp \
+        pdo \
+        mysqli\
+        pdo_mysql\
+    ;
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 

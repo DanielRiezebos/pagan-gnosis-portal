@@ -9,7 +9,7 @@ services:
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ${TRUSTED_HOSTS:-^${SERVER_NAME:-example\.com|localhost}|php$$}
       # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
-      DATABASE_URL: mysql://admin:PaganPassword123$@database/pagan_gnosis_portal
+      DATABASE_URL: mysql://admin:PaganPassword123@database:3306/pagan_gnosis_portal?serverVersion=8.0.32&charset=utf8mb4
       # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://php/.well-known/mercure}
       MERCURE_PUBLIC_URL: ${CADDY_MERCURE_PUBLIC_URL:-https://${SERVER_NAME:-localhost}/.well-known/mercure}
@@ -39,10 +39,15 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: pagan_gnosis_portal
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: PaganPassword123$
+      MYSQL_ROOT_PASSWORD: PaganPassword123
+      # MYSQL_DATABASE: pagan_gnosis_portal
+      # MYSQL_USER: admin
+      # MYSQL_PASSWORD: PaganPassword123$
+      DB_USER: admin
+      DB_PASSWORD: PaganPassword123
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: pagan_gnosis_portal
     volumes:
       - db_data:/c/Users/Daniel Riezebos/My Documents/Projects/PaganGnosisPortal
 
