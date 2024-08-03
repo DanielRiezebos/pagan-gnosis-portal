@@ -14,8 +14,6 @@ class GnosisProjectsController extends AbstractController
     #[Route('/gnosis-projects', name:'gnosis-projects')]
     public function list(GnosisProjectRepository $gnosisProjectRepository): Response
     {
-        $allGnosisProjects = $gnosisProjectRepository->findAll();
-
-        return new Response($allGnosisProjects[0]->getTitle(). ' ' .$allGnosisProjects[0]->getDescription());
+        return $this->render("gnosis-projects.html.twig", ['gnosis_projects' => $gnosisProjectRepository->findAll()]);
     }
 }

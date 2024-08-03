@@ -1,0 +1,20 @@
+{{ include('header.html.twig') }}
+<div class="main-content">
+    <h1>ᚺᛖᛚᛚᛟ ᛏᚹᛁᚷ!</h1>
+    <table class="gnosis-projects-table">
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        {% for gnosis_project in gnosis_projects %}
+        <tr>
+            <td>{{ gnosis_project.title }}</td>
+            <td>{{ gnosis_project.description }}</td>
+            <td>{{ gnosis_project.createdAt|date("m/d/Y") }}</td>
+            <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{{ include('footer.html.twig') }}
