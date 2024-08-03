@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello NewGnosisProjectController!{% endblock %}
-
 {% block content %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="main-content">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{{ form_start(form) }}
+    <div class="errors">
+        {{ form_errors(form) }}
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/app/src/Controller/NewGnosisProjectController.php</code></li>
-        <li>Your template at <code>/app/templates/new_gnosis_project/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="row">
+        <div class="col" id="title">
+            {{ form_row(form.Title) }}
+        </div>
+        <div class="col" id="description">
+            {{ form_row(form.Description) }}
+        </div>
+        <div class="col" id="created_at">
+            {{ form_row(form.created_at) }}
+        </div>
+        <div class="col" id="finished_at">
+            {{ form_row(form.finished_at) }}
+        </div>
+
+    </div>
+    <input type="submit" />
+{{ form_end(form) }}
 {% endblock %}
