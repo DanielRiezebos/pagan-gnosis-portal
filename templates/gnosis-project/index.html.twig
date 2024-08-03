@@ -14,6 +14,7 @@
             <td>{{ gnosis_project.description }}</td>
             <td>{{ gnosis_project.createdAt|date("m/d/Y") }}</td>
             <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
+            <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}">{{ include("gnosis-project/trashcan.html.twig") }}</a></td>
         </tr>
         {% endfor %}
     </table>
