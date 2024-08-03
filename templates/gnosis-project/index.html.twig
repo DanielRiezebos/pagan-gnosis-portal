@@ -1,6 +1,8 @@
-{{ include('header.html.twig') }}
+{% extends 'base.html.twig' %}
+{% block content %}
 <div class="main-content">
-    <h1>ᚺᛖᛚᛚᛟ ᛏᚹᛁᚷ!</h1>
+    <h1>All Gnosis Projects</h1>
+    <button><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
     <table class="gnosis-projects-table">
         <th>Title</th>
         <th>Description</th>
@@ -15,6 +17,5 @@
         </tr>
         {% endfor %}
     </table>
-
 </div>
-{{ include('footer.html.twig') }}
+{% endblock %}
