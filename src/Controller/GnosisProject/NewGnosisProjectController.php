@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\GnosisProject;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,8 +31,7 @@ class NewGnosisProjectController extends AbstractController
             return $this->redirectToRoute('gnosis-projects');
         }
 
-        return $this->render('gnosis-project/create.html.twig', [
-            'controller_name' => 'NewGnosisProjectController',
+        return $this->render('gnosis-project/gnosis-project.html.twig', [
             'form' => $form,
         ]);
     }

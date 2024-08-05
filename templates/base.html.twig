@@ -6,6 +6,16 @@
         
         {% block stylesheets %}
         <link href="https://unpkg.com/fylgja/fylgja.css" rel="stylesheet">
+        <style>
+            .menu {
+                flex-direction: var(--menu-dir, row);
+                background-color: #f2f2f2;
+                margin-bottom: 5px;
+            }
+            .main-content {
+                margin: 20px;
+            }
+        </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -14,6 +24,12 @@
     <body>
         <h1>PaganGnosisPortal</h1>
         <p><em> - For the construction of a Divine Database</em></p>
+        <nav>
+            <ul class="menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/gnosis-projects">Gnosis Projects</a></li>
+            </ul>
+        </nav>
         {% block content %}{% endblock %}
     </body>
     {{ include('footer.html.twig') }}
