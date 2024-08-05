@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>PaganGnosisPortal</title>
+        
+        {% block stylesheets %}
+        <link href="https://unpkg.com/fylgja/fylgja.css" rel="stylesheet">
+        <style>
+            .menu {
+                flex-direction: var(--menu-dir, row);
+                background-color: #f2f2f2;
+                margin-bottom: 5px;
+            }
+            .main-content {
+                margin: 20px;
+            }
+            .footer {
+                border-top: 5px solid;
+                border-color: #f2f2f2;
+                padding-top: 6px;
+            }
+        </style>
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body>
+        <h1>PaganGnosisPortal</h1>
+        <p><em> - For the construction of a Divine Database</em></p>
+        <nav>
+            <ul class="menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/gnosis-projects">Gnosis Projects</a></li>
+            </ul>
+        </nav>
+        {% block content %}{% endblock %}
+    </body>
+    {{ include('footer.html.twig') }}
+</html>

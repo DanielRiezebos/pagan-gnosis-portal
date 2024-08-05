@@ -37,6 +37,19 @@ RUN set -eux; \
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ###> recipes ###
+###> doctrine/doctrine-bundle ###
+RUN install-php-extensions \
+        apcu \
+        intl \
+        opcache \
+        zip \
+        sockets \
+        amqp \
+        pdo \
+        mysqli\
+        pdo_mysql\
+    ;
+###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/

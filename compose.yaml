@@ -9,7 +9,7 @@ services:
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ${TRUSTED_HOSTS:-^${SERVER_NAME:-example\.com|localhost}|php$$}
       # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
-      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
+      DATABASE_URL: mysql://root:PaganPassword123@database:3306/pagan_gnosis_portal?serverVersion=8.0.32&charset=utf8mb4
       # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://php/.well-known/mercure}
       MERCURE_PUBLIC_URL: ${CADDY_MERCURE_PUBLIC_URL:-https://${SERVER_NAME:-localhost}/.well-known/mercure}
@@ -33,13 +33,34 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
-
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+    networks:
+     - pagan-network
+  database:
+    image: mysql:8.0
+    container_name: mysql_db
+    ports:
+      - "3306:3306"
+    networks:
+     - pagan-network
+    environment:
+      MYSQL_ROOT_PASSWORD: PaganPassword123
+      DB_USER: root
+      DB_PASSWORD: PaganPassword123
+      DB_PORT: 3306
+      DB_NAME: pagan_gnosis_portal
+    volumes:
+      - db_data:/c/Users/Daniel Riezebos/My Documents/Projects/PaganGnosisPortal
 
 volumes:
   caddy_data:
   caddy_config:
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /c/Users/Daniel Riezebos/My Documents/Projects/PaganGnosisPortal
+
+networks:
+  pagan-network:
+    driver: bridge
