@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+    <h1>All Gnosis Projects</h1>
+    <button><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
+    <table class="gnosis-projects-table">
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        {% for gnosis_project in gnosis_projects %}
+        <tr>
+            <td>{{ gnosis_project.title }}</td>
+            <td>{{ gnosis_project.description }}</td>
+            <td>{{ gnosis_project.createdAt|date("m/d/Y") }}</td>
+            <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
+            <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
+            <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
