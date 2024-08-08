@@ -8,8 +8,8 @@
         <th>Role</th>
         {% for user in users %}
         <tr>
-            <td>{{ gnosis_project.Username }}</td>
-            <td>{{ gnosis_project.Role }}</td>
+            <td>{{ user.Username }}</td>
+            <td>{{ user.Role.Title }}</td>
             <td><a href="/delete/users/{{ user.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
         </tr>
         {% endfor %}

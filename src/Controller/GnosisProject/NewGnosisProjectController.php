@@ -12,9 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class NewGnosisProjectController extends AbstractController
 {
-    /**
-     * TODO: Refactor this dependency mess
-     */
     #[Route('/new/gnosis/project', name: 'app_new_gnosis_project')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
