@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+    <h1>All Users</h1>
+    <button><a href="/new/user">Create New User</a></button>
+    <table class="users-table">
+        <th>Title</th>
+        <th>Role</th>
+        {% for user in users %}
+        <tr>
+            <td>{{ gnosis_project.Username }}</td>
+            <td>{{ gnosis_project.Role }}</td>
+            <td><a href="/delete/users/{{ user.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
