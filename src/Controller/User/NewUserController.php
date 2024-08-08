@@ -9,11 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class NewUserController extends AbstractController
 {
     #[Route('/new/user', name: 'app_create_user')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $newUser = new User();
         $form = $this->createForm(UserType::class, $newUser);
@@ -21,6 +22,7 @@ class NewUserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $newUser = $form->getData();
+            $newUser->setPassword($passwordHasher->hashPassword($newUser, $newUser->getPassword()));
 
             $entityManager->persist($newUser);
             $entityManager->flush();
