@@ -17,6 +17,7 @@ class UserType extends AbstractType
         $builder
             ->add('Username')
             ->add('Password', PasswordType::class)
+            ->add('ConfirmPassword', PasswordType::class, ['mapped' => false])
             ->add('Role', EntityType::class, [
                 'class' => Role::class,
                 'choice_label' => 'Title',

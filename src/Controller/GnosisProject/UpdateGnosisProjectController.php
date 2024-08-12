@@ -16,7 +16,9 @@ class UpdateGnosisProjectController extends AbstractController
     #[Route('/update/gnosis/project/{id}', name: 'app_update_gnosis_project')]
     public function update(Request $request, EntityManagerInterface $entityManager, GnosisProjectRepository $gnosisProjectRepository, int $id): Response
     {
+        /** @var GnosisProject gnosisProject */
         $gnosisProject = $gnosisProjectRepository->findOneBy(['id' => $id]);
+
         if (!$gnosisProject) {
             return $this->redirectToRoute('gnosis-projects');
         }

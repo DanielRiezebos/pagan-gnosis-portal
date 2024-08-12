@@ -21,6 +21,11 @@ class NewUserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (($form['Password']->getData() !== $form['ConfirmPassword']->getData())) {
+                # TODO: Make error message here
+                $this->redirect('app_create_user');
+            }
+
             $newUser = $form->getData();
             $newUser->setPassword($passwordHasher->hashPassword($newUser, $newUser->getPassword()));
 
