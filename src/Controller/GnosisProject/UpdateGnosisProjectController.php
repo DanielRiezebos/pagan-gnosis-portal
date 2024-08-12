@@ -8,13 +8,13 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\GnosisProject;
 use App\Form\GnosisProjectType;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\GnosisProject\Saver;
 use App\Repository\GnosisProjectRepository;
 
 class UpdateGnosisProjectController extends AbstractController
 {
     #[Route('/update/gnosis/project/{id}', name: 'app_update_gnosis_project')]
-    public function update(Request $request, EntityManagerInterface $entityManager, GnosisProjectRepository $gnosisProjectRepository, int $id): Response
+    public function update(Request $request, Saver $saver, GnosisProjectRepository $gnosisProjectRepository, int $id): Response
     {
         /** @var GnosisProject gnosisProject */
         $gnosisProject = $gnosisProjectRepository->findOneBy(['id' => $id]);
@@ -27,10 +27,7 @@ class UpdateGnosisProjectController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $gnosisProject = $form->getData();
-
-            $entityManager->persist($gnosisProject);
-            $entityManager->flush();
+            $saver->save($form->getData());
 
             return $this->redirectToRoute('gnosis-projects');
         }
