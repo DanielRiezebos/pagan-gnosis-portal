@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+
+{{ form_start(form) }}
+    <div class="errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row">
+        <div class="col" id="username">
+            {{ form_row(form.Username) }}
+        </div>
+        <div class="col" id="password">
+            {{ form_row(form.Password) }}
+        </div>
+        <div class="col" id="role">
+            {{ form_row(form.Role) }}
+        </div>
+    </div>
+    <input type="submit" />
+{{ form_end(form) }}
+{% endblock %}

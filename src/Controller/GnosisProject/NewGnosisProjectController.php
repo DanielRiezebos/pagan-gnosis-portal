@@ -8,25 +8,19 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\GnosisProject;
 use App\Form\GnosisProjectType;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\GnosisProject\Saver;
 
 class NewGnosisProjectController extends AbstractController
 {
-    /**
-     * TODO: Refactor this dependency mess
-     */
     #[Route('/new/gnosis/project', name: 'app_new_gnosis_project')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, Saver $saver): Response
     {
         $newGnosisProject = new GnosisProject();
         $form = $this->createForm(GnosisProjectType::class, $newGnosisProject);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $newGnosisProject = $form->getData();
-
-            $entityManager->persist($newGnosisProject);
-            $entityManager->flush();
+            $saver->save($form->getData());
 
             return $this->redirectToRoute('gnosis-projects');
         }
