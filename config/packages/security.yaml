@@ -33,9 +33,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # All you Pagans ought to login
         - { path: ^/login, roles: PUBLIC_ACCESS }
+
+        # Only ROLE_ADMINISTRATOR Users are allowed at these specific routes
+        - { path: ^/users, roles: ROLE_ADMINISTRATOR}
+        - { path: ^/new/user, roles: ROLE_ADMINISTRATOR}
+
+        # Other logged in Users are technically allowed anywhere, unless otherwise specified
         - { path: ^/, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
