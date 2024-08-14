@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements PasswordAuthenticatedUserInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -58,10 +59,30 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->Role;
     }
 
+    /** 
+     * To clarify: I had to implement this due to the Interface by Symfony but I had an idea on how to work with the Role idea partially implemented.
+     * We'll see how much it will develop further, but for now this satisfies the Interface requirements.
+     * */
+    public function getRoles(): array
+    {
+        return [$this->getRole()->getTitle()];
+    }
+
     public function setRole(?Role $Role): static
     {
         $this->Role = $Role;
 
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Do nothing... for now...
+        // Why do I need this?
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
     }
 }
