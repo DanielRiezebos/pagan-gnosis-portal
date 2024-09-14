@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+
+{{ form_start(form) }}
+    <div class="errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row">
+        <h2>What did you experience with {{ gnosisProject.title }} ?
+        <div class="col" id="gnosis">
+            {{ form_row(form.gnosis) }}
+        </div>
+    </div>
+    <input type="submit" />
+{{ form_end(form) }}
+{% endblock %}
