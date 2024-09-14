@@ -2,7 +2,9 @@
 {% block content %}
 <div class="main-content">
     <h1>All Gnosis Projects</h1>
-    <button><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
+    {% if is_granted('ROLE_ADMINISTRATOR') %}
+        <button><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
+    {% endif %}
     <table class="gnosis-projects-table">
         <th>Title</th>
         <th>Description</th>

@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\GnosisEntry;
+use App\Entity\User;
+use App\Entity\GnosisProject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +16,20 @@ class GnosisEntryRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GnosisEntry::class);
+    }
+
+    /**
+     * @return GnosisEntry[] Returns an array of GnosisEntry object specific to a given User and GnosisProject
+     */
+    public function findByUserAndProject(User $user, GnosisProject $gnosisProject): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.user_id = :user_id')
+            ->andWhere('e.gnosisproject_id = :gnosisproject_id')
+            ->setParameter('user_id', $user->getId())
+            ->setParameter('gnosisproject_id', $gnosisProject->getId())
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

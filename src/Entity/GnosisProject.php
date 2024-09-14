@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use App\Repository\GnosisProjectRepository;
+use App\Repository\GnosisEntryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -90,6 +92,10 @@ class GnosisProject
         $this->finished_at = $finished_at;
 
         return $this;
+    }
+
+    public function getEntriesForUser(User $user, GnosisEntryRepository $gnosisEntryRepository) : array {
+        return $gnosisEntryRepository->findByUserAndProject($user, $this);
     }
 
     /**

@@ -8,7 +8,19 @@
     </div>
 
     <div class="row">
-        <h2>What did you experience with {{ gnosisProject.title }} ?
+        <h2>These are your current experiences with {{ gnosisProject.title }}</h2>
+        <table class="users-table">
+            {% for currentEntry in currentEntries %}            
+                <tr>
+                    <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
+                    <td>{{ currentEntry.gnosis }}</td>                    
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="row">
+        <h2>What would you like to add?</h2>
         <div class="col" id="gnosis">
             {{ form_row(form.gnosis) }}
         </div>
