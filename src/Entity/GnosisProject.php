@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use App\Repository\GnosisProjectRepository;
+use App\Repository\GnosisEntryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +29,17 @@ class GnosisProject
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $finished_at = null;
+
+    /**
+     * @var Collection<int, GnosisEntry>
+     */
+    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'gnosisproject_id', orphanRemoval: true)]
+    private Collection $gnosisEntries;
+
+    public function __construct()
+    {
+        $this->gnosisEntries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +90,40 @@ class GnosisProject
     public function setFinishedAt(?\DateTimeImmutable $finished_at): static
     {
         $this->finished_at = $finished_at;
+
+        return $this;
+    }
+
+    public function getEntriesForUser(User $user, GnosisEntryRepository $gnosisEntryRepository) : array {
+        return $gnosisEntryRepository->findByUserAndProject($user, $this);
+    }
+
+    /**
+     * @return Collection<int, GnosisEntry>
+     */
+    public function getGnosisEntries(): Collection
+    {
+        return $this->gnosisEntries;
+    }
+
+    public function addGnosisEntry(GnosisEntry $gnosisEntry): static
+    {
+        if (!$this->gnosisEntries->contains($gnosisEntry)) {
+            $this->gnosisEntries->add($gnosisEntry);
+            $gnosisEntry->setGnosisprojectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGnosisEntry(GnosisEntry $gnosisEntry): static
+    {
+        if ($this->gnosisEntries->removeElement($gnosisEntry)) {
+            // set the owning side to null (unless already changed)
+            if ($gnosisEntry->getGnosisprojectId() === $this) {
+                $gnosisEntry->setGnosisprojectId(null);
+            }
+        }
 
         return $this;
     }

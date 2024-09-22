@@ -2,7 +2,9 @@
 {% block content %}
 <div class="main-content">
     <h1>All Gnosis Projects</h1>
-    <button><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
+    {% if is_granted('ROLE_ADMINISTRATOR') %}
+        <button><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
+    {% endif %}
     <table class="gnosis-projects-table">
         <th>Title</th>
         <th>Description</th>
@@ -14,8 +16,12 @@
             <td>{{ gnosis_project.description }}</td>
             <td>{{ gnosis_project.createdAt|date("m/d/Y") }}</td>
             <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
-            <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
-            <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+            {% if is_granted('ROLE_ADMINISTRATOR') %}
+                <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
+                <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+                <td><a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a></td>
+            {% endif %}
+            <td><a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a></td>
         </tr>
         {% endfor %}
     </table>
