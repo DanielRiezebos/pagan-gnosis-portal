@@ -42,6 +42,10 @@ security:
 
         # Other logged in Users are technically allowed anywhere, unless otherwise specified
         - { path: ^/, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }
+        - { path: ^/gnosis-projects, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }
+        - { path: ^/new/gnosis/project, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/delete/gnosis/project, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/create/gnosis/project, roles: ROLE_ADMINISTRATOR }
 
 when@test:
     security:
