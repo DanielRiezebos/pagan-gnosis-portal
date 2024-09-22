@@ -19,6 +19,7 @@
             {% if is_granted('ROLE_ADMINISTRATOR') %}
                 <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
                 <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+                <td><a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a></td>
             {% endif %}
             <td><a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a></td>
         </tr>

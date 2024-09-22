@@ -13,7 +13,8 @@
             {% for currentEntry in currentEntries %}            
                 <tr>
                     <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
-                    <td>{{ currentEntry.gnosis }}</td>                    
+                    <td>{{ currentEntry.gnosis }}</td>
+                    <td><a href="/delete/gnosis/project/entry/{{ currentEntry.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
                 </tr>
             {% endfor %}
         </table>
