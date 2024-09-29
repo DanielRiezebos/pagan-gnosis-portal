@@ -33,7 +33,7 @@ class GnosisProject
     /**
      * @var Collection<int, GnosisEntry>
      */
-    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'gnosisproject_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'gnosisproject', orphanRemoval: true)]
     private Collection $gnosisEntries;
 
     public function __construct()
