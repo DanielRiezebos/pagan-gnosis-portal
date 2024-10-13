@@ -33,7 +33,7 @@ class GnosisProject
     /**
      * @var Collection<int, GnosisEntry>
      */
-    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'gnosisproject', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'gnosisproject', orphanRemoval: true, fetch:"EAGER")]
     private Collection $gnosisEntries;
 
     public function __construct()
@@ -110,7 +110,7 @@ class GnosisProject
     {
         if (!$this->gnosisEntries->contains($gnosisEntry)) {
             $this->gnosisEntries->add($gnosisEntry);
-            $gnosisEntry->setGnosisprojectId($this);
+            $gnosisEntry->setGnosisproject($this);
         }
 
         return $this;
@@ -120,8 +120,8 @@ class GnosisProject
     {
         if ($this->gnosisEntries->removeElement($gnosisEntry)) {
             // set the owning side to null (unless already changed)
-            if ($gnosisEntry->getGnosisprojectId() === $this) {
-                $gnosisEntry->setGnosisprojectId(null);
+            if ($gnosisEntry->getGnosisproject() === $this) {
+                $gnosisEntry->setGnosisproject(null);
             }
         }
 

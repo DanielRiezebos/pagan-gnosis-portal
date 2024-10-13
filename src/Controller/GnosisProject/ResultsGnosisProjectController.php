@@ -14,12 +14,21 @@ class ResultsGnosisProjectController extends AbstractController
     public function result(int $id, GnosisProjectRepository $gnosisProjectRepository): Response
     {
         /** @var GnosisProject gnosisProject */
-        $gnosisProject = $gnosisProjectRepository->findOneBy(['id' => $id]);
+        $gnosisProject = $gnosisProjectRepository->find($id);
 
-        dd($gnosisProject->getGnosisEntries());
-        // TODO: Make a collection of all Gnosis Entries here and see if you can make some kind of word map here
+        /** @var Collection gnosisEntries */
+        $gnosisEntries = $gnosisProject->getGnosisEntries();
+
+        $gnosisStory = '';
+        foreach($gnosisEntries as $gnosisEntry) {
+            $gnosis = $gnosisEntry->getGnosis();
+            $gnosisStory = $gnosisStory . $gnosis;            
+        }
+
         return $this->render('gnosis-project/results.html.twig', [
-            'controller_name' => 'ResultsGnosisProjectController',
+            'gnosisProject' => $gnosisProject,
+            'projectEntries' => $gnosisProject->getGnosisEntries(),
+            'wordMapData' => array_count_values(str_word_count($gnosisStory, 1))
         ]);
     }
 }
