@@ -15,11 +15,11 @@ class GnosisEntry
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'gnosisEntries')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'gnosisproject', nullable: false)]
     private ?GnosisProject $gnosisproject = null;
 
     #[ORM\ManyToOne(inversedBy: 'gnosisEntries')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'user', nullable: false)]
     private ?User $user = null;
 
     #[ORM\Column(type: Types::TEXT)]
