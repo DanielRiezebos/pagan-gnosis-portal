@@ -30,7 +30,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     /**
      * @var Collection<int, GnosisEntry>
      */
-    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'user_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $gnosisEntries;
 
     public function __construct()

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<style>
+.word-map {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.word-map li {
+    margin: 5px;
+    color: #535353;
+}
+
+.gnosis-title {
+    text-align: center;
+}
+
+.gnosis-description {
+    text-align: center;
+}
+</style>
+<div class="main-content">
+    <div class="row">
+        <h1 class="gnosis-title">
+            {{ gnosisProject.title }}
+        </h1>
+        <p class="gnosis-description">
+            {{ gnosisProject.description }}
+        </p>
+    </div>    
+    <div class="row">
+        <h4>These are all recorded experiences with {{ gnosisProject.title }}</h4>
+        <table class="users-table">
+            {% for projectEntry in projectEntries %}            
+                <tr>
+                    <td>{{ projectEntry.createdAt|date('Y-m-d') }}: </td>
+                    <td>{{ projectEntry.gnosis }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="row">
+        <h4>Our Gnosis Mapping shows the following</h4>
+        <ul class="word-map">
+            {% for word,weight in wordMapData %}
+                {% set fontSize = 10 + (weight * 10) %}
+                <li style="font-size: {{ fontSize }}px;">{{ word }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row">
+        <h4>Please be advised that the above is based upon subjective divine experiences and must not be used as the final word on the matter of {{ gnosisProject.title }}</h4>
+    </div>
+</div>
+{% endblock %}

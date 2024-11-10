@@ -15,12 +15,12 @@ class GnosisEntry
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'gnosisEntries')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?GnosisProject $gnosisproject_id = null;
+    #[ORM\JoinColumn(name: 'gnosisproject', nullable: false)]
+    private ?GnosisProject $gnosisproject = null;
 
     #[ORM\ManyToOne(inversedBy: 'gnosisEntries')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    #[ORM\JoinColumn(name: 'user', nullable: false)]
+    private ?User $user = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Gnosis = null;
@@ -33,26 +33,26 @@ class GnosisEntry
         return $this->id;
     }
 
-    public function getGnosisprojectId(): ?GnosisProject
+    public function getGnosisProject(): ?GnosisProject
     {
-        return $this->gnosisproject_id;
+        return $this->gnosisproject;
     }
 
-    public function setGnosisprojectId(?GnosisProject $gnosisproject_id): static
+    public function setGnosisProject(?GnosisProject $gnosisproject): static
     {
-        $this->gnosisproject_id = $gnosisproject_id;
+        $this->gnosisproject = $gnosisproject;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
