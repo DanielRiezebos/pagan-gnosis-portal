@@ -20,8 +20,8 @@ class CreateGnosisEntryController extends AbstractController
     public function create(GnosisProject $gnosisProject, Saver $saver, GnosisEntryRepository $gnosisEntryRepository, Request $request): Response
     {
         $newGnosisProjectEntry = new GnosisEntry();
-        $newGnosisProjectEntry->setGnosisprojectId($gnosisProject);
-        $newGnosisProjectEntry->setUserId($this->getUser());
+        $newGnosisProjectEntry->setGnosisProject($gnosisProject);
+        $newGnosisProjectEntry->setUser($this->getUser());
 
         $form = $this->createForm(GnosisEntryType::class, $newGnosisProjectEntry);
         $form->handleRequest($request);

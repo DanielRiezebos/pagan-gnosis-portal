@@ -24,10 +24,10 @@ class GnosisEntryRepository extends ServiceEntityRepository
     public function findByUserAndProject(User $user, GnosisProject $gnosisProject): array
     {
         return $this->createQueryBuilder('e')
-            ->where('e.user_id = :user_id')
-            ->andWhere('e.gnosisproject_id = :gnosisproject_id')
-            ->setParameter('user_id', $user->getId())
-            ->setParameter('gnosisproject_id', $gnosisProject->getId())
+            ->where('e.user = :user')
+            ->andWhere('e.gnosisproject = :gnosisproject')
+            ->setParameter('user', $user->getId())
+            ->setParameter('gnosisproject', $gnosisProject->getId())
             ->getQuery()
             ->getResult();
     }
