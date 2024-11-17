@@ -40,12 +40,13 @@ security:
         - { path: ^/users, roles: ROLE_ADMINISTRATOR}
         - { path: ^/new/user, roles: ROLE_ADMINISTRATOR}
 
-        # Other logged in Users are technically allowed anywhere, unless otherwise specified
-        - { path: ^/, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }
+        # Other logged in Users are technically allowed anywhere, unless otherwise specified        
         - { path: ^/gnosis-projects, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }
         - { path: ^/new/gnosis/project, roles: ROLE_ADMINISTRATOR }
-        - { path: ^/delete/gnosis/project, roles: ROLE_ADMINISTRATOR }
-        - { path: ^/create/gnosis/project, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/delete/gnosis/project/\d+$, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/update/gnosis/project/\d+$, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/create/gnosis/project/\d+$, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }
 
 when@test:
     security:

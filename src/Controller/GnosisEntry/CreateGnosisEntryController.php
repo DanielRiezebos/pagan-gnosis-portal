@@ -19,6 +19,11 @@ class CreateGnosisEntryController extends AbstractController
     #[Route('/create/gnosis/project/entry/{id}', name: 'app_create_gnosis_entry')]
     public function create(GnosisProject $gnosisProject, Saver $saver, GnosisEntryRepository $gnosisEntryRepository, Request $request): Response
     {
+        // Closed Gnosis Projects cannot be added to anymore
+        if ($gnosisProject->isClosed()) {
+            return $this->redirectToRoute('gnosis-projects');
+        }
+
         $newGnosisProjectEntry = new GnosisEntry();
         $newGnosisProjectEntry->setGnosisProject($gnosisProject);
         $newGnosisProjectEntry->setUser($this->getUser());
