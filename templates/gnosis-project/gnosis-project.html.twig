@@ -20,8 +20,11 @@
         <div class="col" id="finished_at">
             {{ form_row(form.finished_at) }}
         </div>
-
+        <div class="col" id="is_closed" style="padding: 10px">
+            {{ form_row(form.is_closed) }}
+        </div>
     </div>
-    <input type="submit" />
+    <button type="submit">Save Gnosis Project</button>
 {{ form_end(form) }}
+</div>
 {% endblock %}

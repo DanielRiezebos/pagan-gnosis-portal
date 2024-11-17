@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+<script>
+    function confirmGnosisProjectDeletion(event) {
+        if (!confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
+            // Prevent navigation if the user clicks "NO"
+            event.preventDefault();
+        }
+    }
+</script>
 <div class="main-content">
     <h1>All Gnosis Projects</h1>
     {% if is_granted('ROLE_ADMINISTRATOR') %}
@@ -18,10 +26,13 @@
             <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
             {% if is_granted('ROLE_ADMINISTRATOR') %}
                 <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
-                <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
-                <td><a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a></td>
+                <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}" onClick="return confirmGnosisProjectDeletion(event)">{{ include("assets/trashcan.html.twig") }}</a></td>                
             {% endif %}
-            <td><a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a></td>
+            {% if gnosis_project.isClosed %}                
+                <td><a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a></td>
+            {% else %}
+                <td><a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

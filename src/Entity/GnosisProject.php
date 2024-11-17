@@ -36,6 +36,9 @@ class GnosisProject
     #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'gnosisproject', orphanRemoval: true, fetch:"EAGER")]
     private Collection $gnosisEntries;
 
+    #[ORM\Column(options: ["default" => false])]
+    private ?bool $is_closed;
+
     public function __construct()
     {
         $this->gnosisEntries = new ArrayCollection();
@@ -124,6 +127,18 @@ class GnosisProject
                 $gnosisEntry->setGnosisproject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isClosed(): ?bool
+    {
+        return $this->is_closed;
+    }
+
+    public function setClosed(bool $is_closed): static
+    {
+        $this->is_closed = $is_closed;
 
         return $this;
     }
