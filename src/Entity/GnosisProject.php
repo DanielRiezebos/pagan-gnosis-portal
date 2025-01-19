@@ -39,9 +39,16 @@ class GnosisProject
     #[ORM\Column(options: ["default" => false])]
     private ?bool $is_closed;
 
+    /**
+     * @var Collection<int, ResultComment>
+     */
+    #[ORM\OneToMany(targetEntity: ResultComment::class, mappedBy: 'GnosisProject', orphanRemoval: true)]
+    private Collection $resultComments;
+
     public function __construct()
     {
         $this->gnosisEntries = new ArrayCollection();
+        $this->resultComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,6 +146,36 @@ class GnosisProject
     public function setClosed(bool $is_closed): static
     {
         $this->is_closed = $is_closed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ResultComment>
+     */
+    public function getResultComments(): Collection
+    {
+        return $this->resultComments;
+    }
+
+    public function addResultComment(ResultComment $resultComment): static
+    {
+        if (!$this->resultComments->contains($resultComment)) {
+            $this->resultComments->add($resultComment);
+            $resultComment->setGnosisProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResultComment(ResultComment $resultComment): static
+    {
+        if ($this->resultComments->removeElement($resultComment)) {
+            // set the owning side to null (unless already changed)
+            if ($resultComment->getGnosisProject() === $this) {
+                $resultComment->setGnosisProject(null);
+            }
+        }
 
         return $this;
     }
