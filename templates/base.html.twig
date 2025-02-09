@@ -7,10 +7,14 @@
         {% block stylesheets %}
         <link href="https://unpkg.com/fylgja/fylgja.css" rel="stylesheet">
         <style>
+            body {
+                background-color: #e6c083;
+                color: #201d17;
+            }
             .menu {
                 flex-direction: var(--menu-dir, row);
-                background-color: #f2f2f2;
-                margin-bottom: 5px;
+                background-color: #f1e3c9;
+                margin-bottom: 5px;            
             }
             .main-content {
                 margin: 20px;
@@ -34,7 +38,19 @@
                 margin-bottom: 10px;
                 margin-top: 10px;
                 width: 50%;
-            }        
+            }
+            .list-title-row {
+                display: flex;
+                align-items: center;
+                margin: 10px;
+            }
+            .list-title-name {
+                margin: 0;
+            }
+            .list-title.button {
+                margin-left: auto;
+                margin-top: 10px;
+            }
         </style>
         {% endblock %}
 

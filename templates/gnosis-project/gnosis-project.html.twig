@@ -1,30 +1,29 @@
 {% extends 'base.html.twig' %}
 {% block content %}
 <div class="main-content">
-
-{{ form_start(form) }}
-    <div class="errors">
-        {{ form_errors(form) }}
-    </div>
-
-    <div class="row">
-        <div class="col" id="title">
-            {{ form_row(form.Title) }}
+    {{ form_start(form) }}
+        <div class="errors">
+            {{ form_errors(form) }}
         </div>
-        <div class="col" id="description">
-            {{ form_row(form.Description) }}
+    
+        <div class="row">
+            <div class="col" id="title">
+                {{ form_row(form.Title) }}
+            </div>
+            <div class="col" id="description">
+                {{ form_row(form.Description) }}
+            </div>
+            <div class="col" id="created_at">
+                {{ form_row(form.created_at) }}
+            </div>
+            <div class="col" id="finished_at">
+                {{ form_row(form.finished_at) }}
+            </div>
+            <div class="col" id="is_closed" style="padding: 10px">
+                {{ form_row(form.is_closed) }}
+            </div>
         </div>
-        <div class="col" id="created_at">
-            {{ form_row(form.created_at) }}
-        </div>
-        <div class="col" id="finished_at">
-            {{ form_row(form.finished_at) }}
-        </div>
-        <div class="col" id="is_closed" style="padding: 10px">
-            {{ form_row(form.is_closed) }}
-        </div>
-    </div>
-    <button type="submit">Save Gnosis Project</button>
-{{ form_end(form) }}
+        <button type="submit">Save Gnosis Project</button>
+    {{ form_end(form) }}
 </div>
 {% endblock %}
