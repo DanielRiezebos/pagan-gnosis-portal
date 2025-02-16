@@ -19,6 +19,13 @@
                 display: flex;
                 width: 75%;
             }
+            .login-part .login-form {
+                margin: auto;
+                width: 80%;
+            }
+            .login-part .login-form .introduction {
+                font-size: 180%;
+            }
             .image-part {
                 flex-grow: 1; /* Takes remaining space */
                 display: flex;
@@ -41,19 +48,17 @@
         <div class="login-container">
             <div class="login-part">
                 <div class="login-form">
+                    <div class="introduction">
+                        <h1>PaganGnosisPortal</h1>
+                        <p style="margin-top: -20px;"><em> - For the construction of a Divine Database</em></p>
+                    </div>
                     <form method="post">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
     
-                        {% if app.user %}
-                            <div class="mb-3">
-                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                            </div>
-                        {% endif %}
-    
                         <div class="card card-content logincard">
-                            <h1 class="h3 mb-3 font-weight-normal">Welcome!</h1>
+                            <h1 class="h3 mb-3 font-weight-normal">Welcome! Please log in to the Portal using your credentials below.</h1>
                             <label for="username">Username</label>
                             <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
                             <label for="password">Password</label>
