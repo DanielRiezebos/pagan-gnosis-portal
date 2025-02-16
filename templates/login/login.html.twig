@@ -23,6 +23,9 @@
                 margin: auto;
                 width: 80%;
             }
+            .login-part .logincard {
+                background: #f9dfb7;
+            }
             .login-part .login-form .introduction {
                 font-size: 180%;
             }
@@ -60,9 +63,9 @@
                         <div class="card card-content logincard">
                             <h1 class="h3 mb-3 font-weight-normal">Welcome! Please log in to the Portal using your credentials below.</h1>
                             <label for="username">Username</label>
-                            <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+                            <input type="text" style="background: white;" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
                             <label for="password">Password</label>
-                            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                            <input type="password" style="background: white;" name="_password" id="password" class="form-control" autocomplete="current-password" required>
     
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('authenticate') }}"
@@ -78,7 +81,7 @@
                                 </div>
                             #}
     
-                            <button class="btn btn-lg btn-primary btn -outline" type="submit" style="width: 100px;margin-top: 10px;">
+                            <button class="btn btn-lg btn-primary btn -outline" type="submit" style="width: 100px;margin-top: 10px; background: #e6c083">
                                 Sign in
                             </button>
                         </div>
