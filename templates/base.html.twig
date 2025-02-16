@@ -66,29 +66,29 @@
     <body>
         <div class="main-container">
             <div class="left-bar">
-            <div class="header">        
-                <div class="introduction">
-                    <h1>PaganGnosisPortal</h1>
-                    <p style="margin-top: -20px;"><em> - For the construction of a Divine Database</em></p>
-                </div>
-                {% if app.user %}
-                    <div class="user-controls">
-                        <b>Welcome {{ app.user.username }}!</b>
-                        <a href="/logout" style="color: white;">Log out</a>
+                <div class="header">        
+                    <div class="introduction">
+                        <h1>PaganGnosisPortal</h1>
+                        <p style="margin-top: -20px;"><em> - For the construction of a Divine Database</em></p>
                     </div>
-                {% endif %}
-            </div>
-            <nav>
-                <ul class="menu">
                     {% if app.user %}
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/gnosis-projects">Gnosis Projects</a></li>
-                        {% if is_granted('ROLE_ADMINISTRATOR') %}
-                            <li><a href="/users">Users</a></li>
-                        {% endif %}
+                        <div class="user-controls">
+                            <b>Welcome {{ app.user.username }}!</b>
+                            <a href="/logout" style="color: white;">Log out</a>
+                        </div>
                     {% endif %}
-                </ul>
-            </nav>
+                </div>
+                <nav>
+                    <ul class="menu">
+                        {% if app.user %}
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/gnosis-projects">Gnosis Projects</a></li>
+                            {% if is_granted('ROLE_ADMINISTRATOR') %}
+                                <li><a href="/users">Users</a></li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
             <div class="work-area">
                 {% block content %}{% endblock %}
