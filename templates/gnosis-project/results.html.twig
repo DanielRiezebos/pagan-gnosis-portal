@@ -62,9 +62,41 @@
     <div class="row">
         <h2>3 Responses</h2>
         <div class="card card-content" style="margin: 12px">
-            <h4>Loggedin User</h4>
-            <textarea rows="2"></textarea>
-            <input type="button" value="Comment" style="width: 100px;margin-top: 10px;">
+            <h4>{{ app.user.username }}</h4>
+            <form id="comment-form">
+                <textarea name="content" id="comment-content" placeholder="Write your comment here..." rows="2"></textarea>
+                <input type="submit" value="Comment" style="width: 100px;margin-top: 10px;" />
+            </form>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const form = document.getElementById('comment-form');
+
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault(); // Prevent default form submission
+
+                        const comment_content = document.getElementById('comment-content').value;                        
+
+                        fetch('/result/comment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            body: JSON.stringify({ content:comment_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}"}),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                location.reload();
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    });
+                });
+            </script>
         </div>
         <div class="container">
             <div class="card card-content" style="margin: 12px">

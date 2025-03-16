@@ -24,8 +24,11 @@ class ResultComment
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'resultComment', cascade: ['persist', 'remove'])]
-    private ?self $ResultComment = null;
+    #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'parentComment', cascade: ['persist', 'remove'])]
+    private ?self $ParentComment = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
     // #[ORM\OneToOne(targetEntity: self::class, mappedBy: 'ResultComment', cascade: ['persist', 'remove'])]
     // private ?self $resultComment = null;
@@ -71,14 +74,26 @@ class ResultComment
         return $this;
     }
 
-    public function getResultComment(): ?self
+    public function getParent(): ?self
     {
-        return $this->ResultComment;
+        return $this->ParentComment;
     }
 
-    public function setResultComment(?self $ResultComment): static
+    public function setParent(?self $ParentComment): static
     {
-        $this->ResultComment = $ResultComment;
+        $this->ParentComment = $ParentComment;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }
