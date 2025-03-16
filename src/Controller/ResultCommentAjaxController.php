@@ -26,20 +26,27 @@ class ResultCommentAjaxController extends AbstractController
             return new JsonResponse(['error' => 'There was no comment content found.'], 400);
         }
 
+        $gnosisProject = $entityManager->getRepository(GnosisProject::class)->find($commentData['gnosisProjectId']);
+        $user = $entityManager->getRepository(User::class)->find($commentData['userId']);
+
         $resultComment = new ResultComment();
         $resultComment->setContent($commentDataContent);
-        $resultComment->setUser($entityManager->getRepository(User::class)->find($commentData['userId']));
-        $resultComment->setGnosisProject($entityManager->getRepository(GnosisProject::class)->find($commentData['gnosisProjectId']));
+        $resultComment->setUser($user);
+        $resultComment->setGnosisProject($gnosisProject);
         $resultComment->setCreatedAt(now());
+
           // If a parent comment is provided, set it
           if (!empty($data['parentId'])) {
             $parentComment = $entityManager->getRepository(ResultComment::class)->find($commentData['parentId']);
             if ($parentComment) {
                 $resultComment->setParent($parentComment);
             }
-        }
+        }        
 
         $entityManager->persist($resultComment);
+        $gnosisProject->addResultComment($resultComment);
+        $user->addResultComment($resultComment);
+
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'Comment added!'], 200);

@@ -42,7 +42,7 @@ class GnosisProject
     /**
      * @var Collection<int, ResultComment>
      */
-    #[ORM\OneToMany(targetEntity: ResultComment::class, mappedBy: 'GnosisProject', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ResultComment::class, mappedBy: 'GnosisProject', orphanRemoval: true, fetch:"EAGER")]
     private Collection $resultComments;
 
     public function __construct()

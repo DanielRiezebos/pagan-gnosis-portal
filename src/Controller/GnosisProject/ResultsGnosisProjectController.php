@@ -46,9 +46,18 @@ class ResultsGnosisProjectController extends AbstractController
             $gnosisStory = $gnosisStory . $gnosis;            
         }
 
+        $resultComments = [];
+        foreach($gnosisProject->getResultComments() as $comment) {
+            $resultComments[] = [
+                'user'    => $comment->getUser()->getUsername(),
+                'content' => $comment->getContent()
+            ];
+        }
+
         return $this->render('gnosis-project/results.html.twig', [
             'gnosisProject' => $gnosisProject,
             'projectEntries' => $gnosisProject->getGnosisEntries(),
+            'resultComments' => array_reverse($resultComments), // TODO: Maybe make this using the repo for performance thingies
             'wordMapData' => array_count_values(str_word_count($gnosisStory, 1))
         ]);
     }
