@@ -24,7 +24,7 @@ class ResultComment
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'parentComment', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'ParentComment', cascade: ['persist', 'remove'])]
     private ?self $ParentComment = null;
 
     #[ORM\Column]

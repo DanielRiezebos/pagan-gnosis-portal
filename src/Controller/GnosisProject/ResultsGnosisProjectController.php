@@ -49,6 +49,7 @@ class ResultsGnosisProjectController extends AbstractController
         $resultComments = [];
         foreach($gnosisProject->getResultComments() as $comment) {
             $resultComments[] = [
+                'id'      => $comment->getId(),
                 'user'    => $comment->getUser()->getUsername(),
                 'content' => $comment->getContent()
             ];

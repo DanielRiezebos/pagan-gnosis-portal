@@ -35,8 +35,8 @@ class ResultCommentAjaxController extends AbstractController
         $resultComment->setGnosisProject($gnosisProject);
         $resultComment->setCreatedAt(now());
 
-          // If a parent comment is provided, set it
-          if (!empty($data['parentId'])) {
+        // If a parent comment is provided, set it
+        if (!empty($commentData['parentId'])) {
             $parentComment = $entityManager->getRepository(ResultComment::class)->find($commentData['parentId']);
             if ($parentComment) {
                 $resultComment->setParent($parentComment);

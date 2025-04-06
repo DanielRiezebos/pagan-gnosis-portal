@@ -23,7 +23,103 @@
 .gnosis-description {
     text-align: center;
 }
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Optional: aligns vertically if there's any height difference */
+    border-bottom: 1px solid #000;
+}
+
+#resultCommentReplyButton {
+    cursor: pointer;
+    font-size: 1.875em;
+    opacity: 0.33;
+}
+
+#resultCommentReplyButton:hover {
+    opacity: 1;
+}
 </style>
+<script>
+    // Load the basic comment form
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('comment-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            document.getElementById('comment-content').disabled = true;
+            document.getElementById('comment-submit').disabled = true;
+
+            const comment_content = document.getElementById('comment-content').value;                        
+
+            fetch('/result/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ content:comment_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}"}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('comment-content').value = "";
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+    function showReplyForm(commentId) {
+        // First, remove old reply-form if there is one found.
+        let oldReplyForm = document.getElementById('reply-form');
+        if (oldReplyForm) {
+            oldReplyForm.remove();
+        }
+
+        // Then, add a new reply form underneath the comment in question.
+        let replyForm = '<form id="reply-form"><textarea name="content" id="reply-content" placeholder="Write your reply here..." rows="2"></textarea><input type="submit" id="reply-submit" value="Reply" style="width: 100px;margin-top: 10px;" /></form>';
+        const theComment = document.getElementById(commentId);
+        theComment.innerHTML += replyForm;
+
+        // Then, add the eventListener to the reply form which will differ slightly from the comment reply system.
+        replyForm = document.getElementById('reply-form');
+        replyForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            document.getElementById('comment-content').disabled = true;
+            document.getElementById('comment-submit').disabled = true;
+
+            document.getElementById('reply-content').disabled = true;
+            document.getElementById('reply-submit').disabled = true;
+
+            const reply_content = document.getElementById('reply-content').value;
+            const parentComment = commentId.replace('comment-','')
+
+            fetch('/result/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ content:reply_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}", parentId:parentComment}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('reply-content').value = "";
+                    document.getElementById('comment-content').value = "";
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+</script>
 <div class="main-content">
     <div class="row">
         <h1 class="gnosis-title">
@@ -67,48 +163,19 @@
                 <textarea name="content" id="comment-content" placeholder="Write your comment here..." rows="2"></textarea>
                 <input type="submit" id="comment-submit" value="Comment" style="width: 100px;margin-top: 10px;" />
             </form>
-            
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const form = document.getElementById('comment-form');
-
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault(); // Prevent default form submission
-                        document.getElementById('comment-content').disabled = true;
-                        document.getElementById('comment-submit').disabled = true;
-
-                        const comment_content = document.getElementById('comment-content').value;                        
-
-                        fetch('/result/comment', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest',
-                            },
-                            body: JSON.stringify({ content:comment_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}"}),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else {
-                                document.getElementById('comment-content').value = "";
-                                location.reload();
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
-                    });
-                });
-            </script>
         </div>
         <div class="container">
             {% for resultComment in resultComments %}
-                <div class="card card-content" style="margin: 12px">
-                    <h4>{{ resultComment.user }}</h4>
-                    <hr style="margin-top: -8px;">
-                    <p>
-                        {{ resultComment.content }}
-                    </p>
+                <div class="card card-content" id="comment-{{ resultComment.id }}" style="margin: 12px">
+                    <div class="comment-header">
+                        <h4 id="resultCommentUser">{{ resultComment.user }}</h4>
+                        <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+                    </div>
+                    <div class="comment-content"> 
+                        <p>
+                            {{ resultComment.content }}
+                        </p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
