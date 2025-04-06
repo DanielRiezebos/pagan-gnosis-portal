@@ -16,6 +16,15 @@ class ResultCommentRepository extends ServiceEntityRepository
         parent::__construct($registry, ResultComment::class);
     }
 
+    public function getAllChildrenFrom(ResultComment $parentComment)
+    {
+        return $this->createQueryBuilder('rc')
+                ->andWhere('rc.ParentComment = :val')
+                ->setParameter('val', $parentComment->getId())
+                ->getQuery()
+                ->getResult();
+    }
+
     //    /**
     //     * @return ResultComment[] Returns an array of ResultComment objects
     //     */

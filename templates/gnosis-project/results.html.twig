@@ -1,3 +1,4 @@
+{% import _self as self %}
 {% extends 'base.html.twig' %}
 
 {% block content %}
@@ -120,6 +121,24 @@
         });
     }
 </script>
+{% macro render_comment_tree(resultComments) %}
+    {% for resultComment in resultComments %}
+        <div class="card card-content" id="comment-{{ resultComment.id }}" style="margin: 12px">
+            <div class="comment-header">
+                <h4 id="resultCommentUser">{{ resultComment.user }}</h4>
+                <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+            </div>
+            <div class="comment-content"> 
+                <p>
+                    {{ resultComment.content }}
+                </p>
+            </div>
+            {% if resultComment.children is not empty %}
+                {{ _self.render_comment_tree(resultComment.children) }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endmacro %}
 <div class="main-content">
     <div class="row">
         <h1 class="gnosis-title">
@@ -165,19 +184,8 @@
             </form>
         </div>
         <div class="container">
-            {% for resultComment in resultComments %}
-                <div class="card card-content" id="comment-{{ resultComment.id }}" style="margin: 12px">
-                    <div class="comment-header">
-                        <h4 id="resultCommentUser">{{ resultComment.user }}</h4>
-                        <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
-                    </div>
-                    <div class="comment-content"> 
-                        <p>
-                            {{ resultComment.content }}
-                        </p>
-                    </div>
-                </div>
-            {% endfor %}
+            <!-- This may be a bit ugly, but I want to see if this works. -->
+            {{ self.render_comment_tree(resultComments) }}
         </div>
     </div>
 </div>
