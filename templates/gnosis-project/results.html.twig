@@ -32,6 +32,14 @@
     border-bottom: 1px solid #000;
 }
 
+.comment-content {
+    padding-top: 5px;
+}
+
+#resultCommentUser {
+    margin-bottom: -15px;
+    font-weight: 555;
+}
 #resultCommentReplyButton {
     cursor: pointer;
     font-size: 1.875em;
@@ -88,6 +96,7 @@
 
         // Then, add the eventListener to the reply form which will differ slightly from the comment reply system.
         replyForm = document.getElementById('reply-form');
+        replyForm.scrollIntoView(false);
         replyForm.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
             document.getElementById('comment-content').disabled = true;
@@ -184,7 +193,6 @@
             </form>
         </div>
         <div class="container">
-            <!-- This may be a bit ugly, but I want to see if this works. -->
             {{ self.render_comment_tree(resultComments) }}
         </div>
     </div>
