@@ -1,19 +1,25 @@
 {% extends 'base.html.twig' %}
 {% block content %}
 <div class="main-content">
-    <h1>All Users</h1>
-    <button><a href="/new/user">Create New User</a></button>
-    <table class="users-table">
-        <th>Title</th>
-        <th>Role</th>
-        {% for user in users %}
-        <tr>
-            <td>{{ user.Username }}</td>
-            <td>{{ user.Role.Title }}</td>
-            <td><a href="/update/user/{{ user.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
-            <td><a href="/delete/user/{{ user.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="row list-title-row">
+        <h1 class="list-title-name">All Users</h1>
+        <button class="list-title-button"><a href="/new/user">Add User</a></button>
+    </div>
+    <div class="row">
+        <div class="card card-content">
+            <table class="users-table">
+                <th>Title</th>
+                <th>Role</th>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.Username }}</td>
+                    <td>{{ user.Role.Title }}</td>
+                    <td><a href="/update/user/{{ user.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
+                    <td><a href="/delete/user/{{ user.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -33,9 +33,16 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(targetEntity: GnosisEntry::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $gnosisEntries;
 
+    /**
+     * @var Collection<int, ResultComment>
+     */
+    #[ORM\OneToMany(targetEntity: ResultComment::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $resultComments;
+
     public function __construct()
     {
         $this->gnosisEntries = new ArrayCollection();
+        $this->resultComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +130,36 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
             // set the owning side to null (unless already changed)
             if ($gnosisEntry->getUserId() === $this) {
                 $gnosisEntry->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ResultComment>
+     */
+    public function getResultComments(): Collection
+    {
+        return $this->resultComments;
+    }
+
+    public function addResultComment(ResultComment $resultComment): static
+    {
+        if (!$this->resultComments->contains($resultComment)) {
+            $this->resultComments->add($resultComment);
+            $resultComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResultComment(ResultComment $resultComment): static
+    {
+        if ($this->resultComments->removeElement($resultComment)) {
+            // set the owning side to null (unless already changed)
+            if ($resultComment->getUser() === $this) {
+                $resultComment->setUser(null);
             }
         }
 

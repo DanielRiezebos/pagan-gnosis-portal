@@ -5,36 +5,59 @@
         <title>PaganGnosisPortal</title>
         
         {% block stylesheets %}
-        <link href="https://unpkg.com/fylgja/fylgja.css" rel="stylesheet">
-        <style>
+        <link href="{{ asset('css/fylgja.css') }}" rel="stylesheet">
+        <style>            
+            body {
+                background-color: #e6c083;
+                color: #201d17;                
+            }
+            .main-container {
+                margin-left: 0;
+                margin-right: 0;
+                display: flex;
+                min-height: 800px;
+                height: auto;
+            }            
+            .left-bar {
+                width: 325px;
+                flex-shrink: 0;
+            }
+            .header {
+                padding: 4%;
+            }
+            .user-controls {
+                position: relative;                
+                text-align: right;
+            }
             .menu {
-                flex-direction: var(--menu-dir, row);
-                background-color: #f2f2f2;
-                margin-bottom: 5px;
+                background-color: #f1e3c9;
+            }
+            .work-area {
+                flex-grow: 1;
+                background-color: #f9dfb7;
             }
             .main-content {
-                margin: 20px;
+                margin: auto;
+                margin-top: 2%;
+                width: 80%;
+            }
+            .list-title-row {
+                display: flex;
+                align-items: center;
+                margin: 10px;
+            }
+            .list-title-name {
+                margin: 0;
+            }
+            .list-title.button {
+                margin-left: auto;
+                margin-top: 10px;
             }
             .footer {
                 border-top: 5px solid;
                 border-color: #f2f2f2;
-                padding-top: 6px;
+                padding: 1%;
             }
-            .header {
-                position; relative;
-            }
-            .user-controls {
-                position: absolute;
-                right: 20px;
-                top: 20px;
-                text-align: right;
-            }
-            .main-content {
-                margin: auto;
-                margin-bottom: 10px;
-                margin-top: 10px;
-                width: 50%;
-            }        
         </style>
         {% endblock %}
 
@@ -42,30 +65,36 @@
         {% endblock %}
     </head>
     <body>
-        <div class="header">        
-            <div class="introduction">
-                <h1>PaganGnosisPortal</h1>
-                <p style="margin-top: -20px;"><em> - For the construction of a Divine Database</em></p>
-            </div>
-            {% if app.user %}
-                <div class="user-controls">
-                    <p>Hail to thee {{ app.user.username }}, we are glad to see you today! :)</p>
-                    <a href="/logout">Logout</a>
-                </div>
-            {% endif %}
-        </div>
-        <nav>
-            <ul class="menu">
-                {% if app.user %}
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/gnosis-projects">Gnosis Projects</a></li>
-                    {% if is_granted('ROLE_ADMINISTRATOR') %}
-                        <li><a href="/users">Users</a></li>
+        <div class="main-container">
+            <div class="left-bar">
+                <div class="header">        
+                    <div class="introduction">
+                        <h1>PaganGnosisPortal</h1>
+                        <p style="margin-top: -20px;"><em> - For the construction of a Divine Database</em></p>
+                    </div>
+                    {% if app.user %}
+                        <div class="user-controls">
+                            <b>Welcome {{ app.user.username }}!</b>
+                            <a href="/logout" style="color: white;">Log out</a>
+                        </div>
                     {% endif %}
-                {% endif %}
-            </ul>
-        </nav>
-        {% block content %}{% endblock %}
-    </body>
-    {{ include('footer.html.twig') }}
+                </div>
+                <nav>
+                    <ul class="menu">
+                        {% if app.user %}
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/gnosis-projects">Gnosis Projects</a></li>
+                            {% if is_granted('ROLE_ADMINISTRATOR') %}
+                                <li><a href="/users">Users</a></li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="work-area">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        {{ include('footer.html.twig') }}
+    </body>    
 </html>
