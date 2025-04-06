@@ -70,6 +70,7 @@ class ResultsGnosisProjectController extends AbstractController
             'gnosisProject' => $gnosisProject,
             'projectEntries' => $gnosisProject->getGnosisEntries(),
             'resultComments' => array_reverse($displayComments), // TODO: Maybe make this using the repo for performance thingies
+            'totalComments' => $resultCommentRepository->countAllResultCommentsFrom($gnosisProject),
             'wordMapData' => array_count_values(str_word_count($gnosisStory, 1))
         ]);
     }

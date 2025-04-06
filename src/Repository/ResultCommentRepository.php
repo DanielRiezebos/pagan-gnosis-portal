@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\GnosisProject;
 use App\Entity\ResultComment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NoResultException;
 
 /**
  * @extends ServiceEntityRepository<ResultComment>
@@ -19,10 +21,20 @@ class ResultCommentRepository extends ServiceEntityRepository
     public function getAllChildrenFrom(ResultComment $parentComment)
     {
         return $this->createQueryBuilder('rc')
-                ->andWhere('rc.ParentComment = :val')
-                ->setParameter('val', $parentComment->getId())
-                ->getQuery()
-                ->getResult();
+                    ->andWhere('rc.ParentComment = :val')
+                    ->setParameter('val', $parentComment->getId())
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function countAllResultCommentsFrom(GnosisProject $gnosisProject) : int
+    {
+        return $this->createQueryBuilder('rc')
+                    ->select('COUNT(rc.id)')
+                    ->where('rc.GnosisProject = :val')
+                    ->setParameter('val', $gnosisProject->getId())
+                    ->getQuery()
+                    ->getSingleScalarResult();
     }
 
     //    /**
