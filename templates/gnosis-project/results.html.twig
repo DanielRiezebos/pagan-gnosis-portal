@@ -1,3 +1,4 @@
+{% import _self as self %}
 {% extends 'base.html.twig' %}
 
 {% block content %}
@@ -7,11 +8,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    background: #f2f2f2; 
+    border-radius: 5px;
 }
 
 .word-map li {
     margin: 5px;
-    color: #535353;
+    color:rgb(66, 66, 66);
 }
 
 .gnosis-title {
@@ -21,7 +24,130 @@
 .gnosis-description {
     text-align: center;
 }
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Optional: aligns vertically if there's any height difference */
+    border-bottom: 1px solid #000;
+}
+
+.comment-content {
+    padding-top: 5px;
+}
+
+#resultCommentUser {
+    margin-bottom: -15px;
+    font-weight: 555;
+}
+#resultCommentReplyButton {
+    cursor: pointer;
+    font-size: 1.875em;
+    opacity: 0.33;
+}
+
+#resultCommentReplyButton:hover {
+    opacity: 1;
+}
 </style>
+<script>
+    // Load the basic comment form
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('comment-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            document.getElementById('comment-content').disabled = true;
+            document.getElementById('comment-submit').disabled = true;
+
+            const comment_content = document.getElementById('comment-content').value;                        
+
+            fetch('/result/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ content:comment_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}"}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('comment-content').value = "";
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+    function showReplyForm(commentId) {
+        // First, remove old reply-form if there is one found.
+        let oldReplyForm = document.getElementById('reply-form');
+        if (oldReplyForm) {
+            oldReplyForm.remove();
+        }
+
+        // Then, add a new reply form underneath the comment in question.
+        let replyForm = '<form id="reply-form"><textarea name="content" id="reply-content" placeholder="Write your reply here..." rows="2"></textarea><input type="submit" id="reply-submit" value="Reply" style="width: 100px;margin-top: 10px;" /></form>';
+        const theComment = document.getElementById(commentId);
+        theComment.innerHTML += replyForm;
+
+        // Then, add the eventListener to the reply form which will differ slightly from the comment reply system.
+        replyForm = document.getElementById('reply-form');
+        replyForm.scrollIntoView(false);
+        replyForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            document.getElementById('comment-content').disabled = true;
+            document.getElementById('comment-submit').disabled = true;
+
+            document.getElementById('reply-content').disabled = true;
+            document.getElementById('reply-submit').disabled = true;
+
+            const reply_content = document.getElementById('reply-content').value;
+            const parentComment = commentId.replace('comment-','')
+
+            fetch('/result/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ content:reply_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}", parentId:parentComment}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('reply-content').value = "";
+                    document.getElementById('comment-content').value = "";
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+</script>
+{% macro render_comment_tree(resultComments) %}
+    {% for resultComment in resultComments %}
+        <div class="card card-content" id="comment-{{ resultComment.id }}" style="margin: 12px">
+            <div class="comment-header">
+                <h4 id="resultCommentUser">{{ resultComment.user }}</h4>
+                <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+            </div>
+            <div class="comment-content"> 
+                <p>
+                    {{ resultComment.content }}
+                </p>
+            </div>
+            {% if resultComment.children is not empty %}
+                {{ _self.render_comment_tree(resultComment.children) }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endmacro %}
 <div class="main-content">
     <div class="row">
         <h1 class="gnosis-title">
@@ -32,15 +158,17 @@
         </p>
     </div>    
     <div class="row">
-        <h4>These are all recorded experiences with {{ gnosisProject.title }}</h4>
-        <table class="users-table">
-            {% for projectEntry in projectEntries %}            
-                <tr>
-                    <td>{{ projectEntry.createdAt|date('Y-m-d') }}: </td>
-                    <td>{{ projectEntry.gnosis }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div class="card card-content">
+            <h4>These are all recorded experiences with {{ gnosisProject.title }}</h4>
+            <table class="users-table">
+                {% for projectEntry in projectEntries %}            
+                    <tr>
+                        <td>{{ projectEntry.createdAt|date('Y-m-d') }}: </td>
+                        <td>{{ projectEntry.gnosis }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
     <div class="row">
         <h4>Our Gnosis Mapping shows the following</h4>
@@ -52,7 +180,21 @@
         </ul>
     </div>
     <div class="row">
-        <h4>Please be advised that the above is based upon subjective divine experiences and must not be used as the final word on the matter of {{ gnosisProject.title }}</h4>
+        <p>Wordmapping above has been generated using above-mentioned Gnosis reports and gives some information on the matter of {{ gnosisProject.title }}. Please be advised that the above is in no matter the final word of the matter, and so we would like to encourage and invite to discussion below</p>
+    </div>
+    <hr>
+    <div class="row">
+        <h2>{{ totalComments }} Responses</h2>
+        <div class="card card-content" style="margin: 12px">
+            <h4>{{ app.user.username }}</h4>
+            <form id="comment-form">
+                <textarea name="content" id="comment-content" placeholder="Write your comment here..." rows="2"></textarea>
+                <input type="submit" id="comment-submit" value="Comment" style="width: 100px;margin-top: 10px;" />
+            </form>
+        </div>
+        <div class="container">
+            {{ self.render_comment_tree(resultComments) }}
+        </div>
     </div>
 </div>
 {% endblock %}

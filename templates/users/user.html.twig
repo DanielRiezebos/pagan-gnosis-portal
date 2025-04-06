@@ -1,23 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block content %}
 <div class="main-content">
-
+    <div class="row list-title-row">
+        <h1 class="list-title-name">User</h1>
+    </div>
 {{ form_start(form) }}
     <div class="errors">
         {{ form_errors(form) }}
     </div>
-
     <div class="row">
-        <div class="col" id="username">
-            {{ form_row(form.Username) }}
+        <div class="card card-content">
+            <div class="col" id="username">
+                {{ form_row(form.Username) }}
+            </div>
+            <div class="col" id="password">
+                {{ form_row(form.Password) }}
+            </div>
+            <div class="col" id="role">
+                {{ form_row(form.Role) }}
+            </div>
+            <button type="submit">Save User</button>
         </div>
-        <div class="col" id="password">
-            {{ form_row(form.Password) }}
-        </div>
-        <div class="col" id="role">
-            {{ form_row(form.Role) }}
-        </div>
-    </div>
-    <button type="submit">Save User</button>
+    </div>    
+</div>
 {{ form_end(form) }}
 {% endblock %}

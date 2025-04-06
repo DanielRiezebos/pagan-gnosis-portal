@@ -1,32 +1,38 @@
 {% extends 'base.html.twig' %}
 {% block content %}
 <div class="main-content">
-
-{{ form_start(form) }}
-    <div class="errors">
-        {{ form_errors(form) }}
+    <div class="row list-title-row">
+        <h1 class="list-title-name">Gnosis Entry</h1>    
     </div>
-
     <div class="row">
-        <h2>These are your current experiences with {{ gnosisProject.title }}</h2>
-        <table class="users-table">
-            {% for currentEntry in currentEntries %}            
-                <tr>
-                    <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
-                    <td>{{ currentEntry.gnosis }}</td>
-                    <td><a href="/delete/gnosis/project/entry/{{ currentEntry.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+        {{ form_start(form) }}
+            <div class="card card-content">
+                <div class="errors">
+                    {{ form_errors(form) }}
+                </div>
+    
+                <div class="row">
+                    <h2>These are your current experiences with {{ gnosisProject.title }}</h2>
+                    <table class="users-table">
+                        {% for currentEntry in currentEntries %}            
+                            <tr>
+                                <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
+                                <td>{{ currentEntry.gnosis }}</td>
+                                <td><a href="/delete/gnosis/project/entry/{{ currentEntry.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+    
+                <div class="row">
+                    <h2>What would you like to add?</h2>
+                    <div class="col" id="gnosis">
+                        {{ form_row(form.gnosis) }}
+                    </div>
+                </div>
+                <button type="submit">Save Gnosis Entry</button>
+            </div>
+        {{ form_end(form) }}
     </div>
-
-    <div class="row">
-        <h2>What would you like to add?</h2>
-        <div class="col" id="gnosis">
-            {{ form_row(form.gnosis) }}
-        </div>
-    </div>
-    <button type="submit">Save Gnosis Entry</button>
-{{ form_end(form) }}
 </div>
 {% endblock %}
