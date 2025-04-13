@@ -1,38 +1,48 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+<style>
+    .gnosis-entries-table {
+        width: 100%;
+    }
+</style>
 <div class="main-content">
     <div class="row list-title-row">
-        <h1 class="list-title-name">Gnosis Entry</h1>    
+        <h1 class="list-title-name">Add a new Gnosis Entry for {{ gnosisProject.title }}</h1>    
     </div>
-    <div class="row">
-        {{ form_start(form) }}
-            <div class="card card-content">
-                <div class="errors">
-                    {{ form_errors(form) }}
-                </div>
-    
-                <div class="row">
-                    <h2>These are your current experiences with {{ gnosisProject.title }}</h2>
-                    <table class="users-table">
-                        {% for currentEntry in currentEntries %}            
-                            <tr>
-                                <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
-                                <td>{{ currentEntry.gnosis }}</td>
-                                <td><a href="/delete/gnosis/project/entry/{{ currentEntry.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-    
-                <div class="row">
-                    <h2>What would you like to add?</h2>
-                    <div class="col" id="gnosis">
-                        {{ form_row(form.gnosis) }}
-                    </div>
-                </div>
-                <button type="submit">Save Gnosis Entry</button>
+    {{ form_start(form) }}
+        <div class="card card-content">
+            <div class="errors">
+                {{ form_errors(form) }}
             </div>
-        {{ form_end(form) }}
-    </div>
+
+            <div class="row">
+                {% if currentEntries|length > 0 %}
+                    <h2>These are your current recorded experiences with {{ gnosisProject.title }}</h2>
+                {% else %}
+                    <h2>So far, you have no recorded experiences with {{ gnosisProject.title }}</h2>
+                {% endif %}
+                <table class="gnosis-entries-table">
+                    <th>Date</th>
+                    <th>Gnosis</th>
+                    <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
+                    {% for currentEntry in currentEntries %}            
+                        <tr>
+                            <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
+                            <td>{{ currentEntry.gnosis }}</td>
+                            <td><a href="/delete/gnosis/project/entry/{{ currentEntry.id }}">{{ include("assets/trashcan.html.twig") }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="row">
+                <h2>What would you like to add?</h2>
+                <div class="col" id="gnosis">
+                    {{ form_row(form.gnosis) }}
+                </div>
+            </div>
+            <button type="submit">Save Gnosis Entry</button>
+        </div>
+    {{ form_end(form) }}
 </div>
 {% endblock %}
