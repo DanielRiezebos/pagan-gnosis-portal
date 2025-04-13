@@ -1,8 +1,21 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+<style>
+    .date-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    label {
+        font-weight: bold;
+    }
+    .col {
+        margin-bottom: 10px;
+    }
+</style>
 <div class="main-content">
     <div class="row list-title-row">
-        <h1 class="list-title-name">Gnosis Project</h1>    
+        <h1 class="list-title-name">Add new Gnosis-Project</h1>    
     </div>
     <div class="row">
         <div class="card card-content">
@@ -17,6 +30,8 @@
                     <div class="col" id="description">
                         {{ form_row(form.Description) }}
                     </div>
+                </div>
+                <div class="row date-row">
                     <div class="col" id="created_at">
                         {{ form_row(form.created_at) }}
                     </div>
