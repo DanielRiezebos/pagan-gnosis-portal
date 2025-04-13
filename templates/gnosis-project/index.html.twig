@@ -32,8 +32,10 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
-                <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
-                <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
+                {% if is_granted('ROLE_ADMINISTRATOR') %}
+                    <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
+                    <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
+                {% endif %}
                 {% for gnosis_project in gnosis_projects %}
                 <tr class="gnosis-project-{{ gnosis_project.isClosed }}">
                     <td>{{ gnosis_project.title }}</td>
