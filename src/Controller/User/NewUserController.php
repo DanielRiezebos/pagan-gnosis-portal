@@ -20,11 +20,18 @@ class NewUserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $newUser = $form->getData();
+            $password = $form->get('Password')->getData();
 
-            if (!$saver->save($newUser)) {
+            // If no password has been entered, return back to the user creation route
+            if (empty($password)) {
                 # TODO: Make error message here
-                $this->redirect('app_create_user');
+                return $this->redirectToRoute('app_create_user');
+            }
+
+            $newUser = $form->getData();
+            if (!$saver->save($newUser, $password)) {
+                # TODO: Make error message here
+                $this->redirectToRoute('app_create_user');
             }
 
             return $this->redirectToRoute('app_users');

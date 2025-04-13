@@ -39,6 +39,8 @@ security:
         # Only ROLE_ADMINISTRATOR Users are allowed at these specific routes
         - { path: ^/users, roles: ROLE_ADMINISTRATOR}
         - { path: ^/new/user, roles: ROLE_ADMINISTRATOR}
+        - { path: ^/update/user, roles: ROLE_ADMINISTRATOR}
+        - { path: ^/delete/user, roles: ROLE_ADMINISTRATOR}
 
         # Other logged in Users are technically allowed anywhere, unless otherwise specified        
         - { path: ^/gnosis-projects, roles: [ROLE_ADMINISTRATOR, ROLE_USER] }

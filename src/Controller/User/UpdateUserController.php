@@ -12,11 +12,12 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UpdateUserController extends AbstractController
 {
     #[Route('/update/user/{id}', name: 'app_update_user')]
-    public function update(Request $request, Saver $saver, UserRepository $userRepository, int $id): Response
+    public function update(Request $request, Saver $saver, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher ,int $id): Response
     {
         /** @var User user */
         $user = $userRepository->findOneBy(['id' => $id]);
@@ -32,9 +33,9 @@ class UpdateUserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $newUser = $form->getData();
 
-            if (!$saver->save($newUser)) {
+            if (!$saver->save($newUser, $form->get('Password')->getData())) {
                 # TODO: Make error message here
-                $this->redirect("/update/user/$id");
+                return $this->redirectToRoute('app_uapp_update_usersers');
             }
 
             return $this->redirectToRoute('app_users');
