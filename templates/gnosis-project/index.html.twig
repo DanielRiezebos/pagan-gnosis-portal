@@ -10,7 +10,19 @@
 </script>
 <style>
     .gnosis-project-1 {
-        background-color: #dbdbdb;
+        background-color: #c2a77c;
+    }
+    .gnosis-projects-box {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .gnosis-project-card {
+        padding: 1%;
+        margin: 1%;
+    }
+    .gnosis-project-controls {
+        display: flex;
+        justify-content: space-between;
     }
 </style>
 <div class="main-content">
@@ -26,34 +38,29 @@
     </div>
     <div class="row">
         <div class="card card-content">
-            <table class="gnosis-projects-table">
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
-                {% if is_granted('ROLE_ADMINISTRATOR') %}
-                    <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
-                    <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
-                {% endif %}
+            <div class="gnosis-projects-box">
                 {% for gnosis_project in gnosis_projects %}
-                <tr class="gnosis-project-{{ gnosis_project.isClosed }}">
-                    <td>{{ gnosis_project.title }}</td>
-                    <td>{{ gnosis_project.description }}</td>
-                    <td>{{ gnosis_project.createdAt|date("m/d/Y") }}</td>
-                    <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
-                    {% if is_granted('ROLE_ADMINISTRATOR') %}
-                        <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
-                        <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}" onClick="return confirmGnosisProjectDeletion(event)">{{ include("assets/trashcan.html.twig") }}</a></td>                
-                    {% endif %}
-                    {% if gnosis_project.isClosed %}                
-                        <td><a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a></td>
-                    {% else %}
-                        <td><a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a></td>
-                    {% endif %}
-                </tr>
+                    <div class="card gnosis-project-card gnosis-project-{{ gnosis_project.isClosed }}">
+                        <div style="text-align: center"><h3>{{ gnosis_project.title }}</h3></div>
+                        <div class="gnosis-project-dates">
+                            Start: {{ gnosis_project.createdAt|date("m/d/Y") }}
+                            End: {{ gnosis_project.finishedAt|date("m/d/Y") }}
+                        </div>
+                        <hr>
+                        <div class="gnosis-project-controls">
+                            {% if is_granted('ROLE_ADMINISTRATOR') %}
+                                <a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a>
+                                <a href="/delete/gnosis/project/{{ gnosis_project.id }}" onClick="return confirmGnosisProjectDeletion(event)">{{ include("assets/trashcan.html.twig") }}</a>
+                            {% endif %}
+                            {% if gnosis_project.isClosed %}                
+                                <a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a>
+                            {% else %}
+                                <a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endfor %}
-            </table>
+            </div>
         </div>
     </div>
 </div>

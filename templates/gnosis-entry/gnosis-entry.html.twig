@@ -15,8 +15,15 @@
 </script>
 <div class="main-content">
     <div class="row list-title-row">
-        <h1 class="list-title-name">Add a new Gnosis Entry for {{ gnosisProject.title }}</h1>    
+        <h1 class="list-title-name">Add a new Gnosis Entry</h1>    
     </div>
+    <div class="row" style="margin: 1%;">
+        <div class="card card-content">
+            <h2>What can we tell you about <b>{{gnosisProject.title}}</b>?</h2>
+            <p>{{ gnosisProject.description|nl2br|raw }}</p>
+        </div>
+    </div>
+    <div class="row">
     {{ form_start(form) }}
         <div class="card card-content">
             <div class="errors">
@@ -25,7 +32,7 @@
 
             <div class="row">
                 {% if currentEntries|length > 0 %}
-                    <h2>These are your current recorded experiences with {{ gnosisProject.title }}</h2>
+                    <h2>These are your current recorded experiences:</h2>
                     <table class="gnosis-entries-table">
                         <th>Date</th>
                         <th>Gnosis</th>
@@ -39,7 +46,7 @@
                         {% endfor %}
                     </table>
                 {% else %}
-                    <h2>So far, you have no recorded experiences with {{ gnosisProject.title }}</h2>
+                    <h2>You have no experiences recorded so far.</h2>
                 {% endif %}
             </div>
 
@@ -52,5 +59,6 @@
             <button type="submit" class="form-confirm-button primarybtn btn-lg btn-primary btn" id="save-gnosis-entry">Save New Entry</button>
         </div>
     {{ form_end(form) }}
+    </div>
 </div>
 {% endblock %}
