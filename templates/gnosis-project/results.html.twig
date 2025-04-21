@@ -8,13 +8,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    background: #f2f2f2; 
+    background-color: #c2a77c;
     border-radius: 5px;
 }
 
 .word-map li {
     margin: 5px;
-    color:rgb(66, 66, 66);
+    color:rgb(255, 255, 255);
 }
 
 .gnosis-title {
@@ -28,7 +28,7 @@
 .comment-header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Optional: aligns vertically if there's any height difference */
+    align-items: center;
     border-bottom: 1px solid #000;
 }
 
@@ -45,9 +45,19 @@
     font-size: 1.875em;
     opacity: 0.33;
 }
-
 #resultCommentReplyButton:hover {
     opacity: 1;
+}
+.row {
+    margin: 1%;
+}
+.gnosis-wrapping-alert {
+    background-color: #f9dfb7;
+    border-radius: 5px;
+    padding: 1%;
+    font-size: 1.3em;
+    display: flex;
+    justify-content: space-between;
 }
 </style>
 <script>
@@ -150,16 +160,16 @@
 {% endmacro %}
 <div class="main-content">
     <div class="row">
-        <h1 class="gnosis-title">
+        <h1 class="gnosis-title" style="font-size: 4em;">
             {{ gnosisProject.title }}
         </h1>
-        <p class="gnosis-description">
+        <p class="gnosis-description" style="font-size: 1.7em;">
             {{ gnosisProject.description }}
         </p>
     </div>    
     <div class="row">
         <div class="card card-content">
-            <h4>These are all recorded experiences with {{ gnosisProject.title }}</h4>
+            <h2>All recorded experiences:</h2>
             <table class="users-table">
                 {% for projectEntry in projectEntries %}            
                     <tr>
@@ -170,18 +180,21 @@
             </table>
         </div>
     </div>
-    <div class="row">
-        <h4>Our Gnosis Mapping shows the following</h4>
-        <ul class="word-map">
-            {% for word,weight in wordMapData %}
-                {% set fontSize = 10 + (weight * 10) %}
-                <li style="font-size: {{ fontSize }}px;">{{ word }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="row">
-        <p>Wordmapping above has been generated using above-mentioned Gnosis reports and gives some information on the matter of {{ gnosisProject.title }}. Please be advised that the above is in no matter the final word of the matter, and so we would like to encourage and invite to discussion below</p>
-    </div>
+    <div class="row" id="word-map-row">
+        <div class="card card-content">
+            <h2>Gnosis Word-mapping:</h2>
+            <ul class="word-map">
+                {% for word,weight in wordMapData %}
+                    {% set fontSize = 10 + (weight * 10) %}
+                    <li style="font-size: {{ fontSize }}px;">{{ word }}</li>
+                {% endfor %}
+            </ul>
+            <div class="gnosis-wrapping-alert">
+                <div class="warning-emoji" style="font-size: 3em;">⚠️</div>
+                <p style="padding: 1%;">This wordmapping above has been generated using the Gnosis reports provided by our users. Be advised that the above is in no way the final word of the matter and so we would like to encourage and invite discussion below.</p>
+            </div>
+        </div>
+    </div>    
     <hr>
     <div class="row">
         <h2>{{ totalComments }} Responses</h2>

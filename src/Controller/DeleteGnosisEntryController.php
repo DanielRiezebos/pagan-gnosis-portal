@@ -15,7 +15,9 @@ class DeleteGnosisEntryController extends AbstractController
     public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
         $gnosisEntry = $entityManager->getRepository(GnosisEntry::class)->find($id);
-        $gnosisProjectId = $gnosisEntry->getGnosisprojectId();
+        $gnosisProject = $gnosisEntry->getGnosisProject();        
+        $gnosisProjectId = $gnosisProject->getId();
+
         if (!$gnosisEntry) {
             return $this->redirectToRoute('gnosis-projects');
         };
@@ -23,6 +25,6 @@ class DeleteGnosisEntryController extends AbstractController
         $entityManager->remove($gnosisEntry);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_create_gnosis_entry', ['id' => $gnosisProjectId->getId()]);
+        return $this->redirectToRoute('app_create_gnosis_entry', ['id' => $gnosisProjectId]);
     }
 }

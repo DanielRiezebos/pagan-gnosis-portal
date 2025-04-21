@@ -21,7 +21,7 @@ class NewGnosisProjectController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $gnosisProjectData = $form->getData();
-            $gnosisProjectData->setClosed($request->request->all()['gnosis_project']['is_closed']);
+            $gnosisProjectData->setIsClosed($request->request->all()['gnosis_project']['is_closed']);
             $saver->save($gnosisProjectData);
 
             return $this->redirectToRoute('gnosis-projects');

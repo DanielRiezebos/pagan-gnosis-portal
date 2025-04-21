@@ -17,9 +17,11 @@ class Saver
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function save(User $user) : bool
+    public function save(User $user, ?string $password) : bool
     {
-        $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
+        if (!empty($password)) {
+            $user->setPassword($this->passwordHasher->hashPassword($user, $password));
+        }        
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

@@ -1,5 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+<style>
+    .password-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    label {
+        font-weight: bold;
+    }
+    .col {
+        margin-bottom: 10px;
+    }
+</style>
 <div class="main-content">
     <div class="row list-title-row">
         <h1 class="list-title-name">User</h1>
@@ -13,13 +26,15 @@
             <div class="col" id="username">
                 {{ form_row(form.Username) }}
             </div>
-            <div class="col" id="password">
-                {{ form_row(form.Password) }}
-            </div>
+            <div class="row password-row">
+                <div class="col" id="password">
+                    {{ form_row(form.Password) }}
+                </div>
+            </div>            
             <div class="col" id="role">
                 {{ form_row(form.Role) }}
             </div>
-            <button type="submit">Save User</button>
+            <button class="form-confirm-button primarybtn btn-lg btn-primary btn" type="submit">Save User</button>
         </div>
     </div>    
 </div>

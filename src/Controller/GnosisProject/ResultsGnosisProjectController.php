@@ -41,6 +41,12 @@ class ResultsGnosisProjectController extends AbstractController
         /** @var GnosisProject gnosisProject */
         $gnosisProject = $gnosisProjectRepository->find($id);
 
+        // Send user back to the gnosis-projects area if gnosisproject isn't closed yet
+        if (!$gnosisProject->isClosed()) {
+            return $this->redirectToRoute('gnosis-projects');
+        }
+
+
         /** @var Collection gnosisEntries */
         $gnosisEntries = $gnosisProject->getGnosisEntries();
 
