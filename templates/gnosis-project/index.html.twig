@@ -43,8 +43,8 @@
                     <div class="card gnosis-project-card gnosis-project-{{ gnosis_project.isClosed }}">
                         <div style="text-align: center"><h3>{{ gnosis_project.title }}</h3></div>
                         <div class="gnosis-project-dates">
-                            Start: {{ gnosis_project.createdAt|date("m/d/Y") }}
-                            End: {{ gnosis_project.finishedAt|date("m/d/Y") }}
+                            <b>Start:</b> {{ gnosis_project.createdAt|date("m/d/Y") }}
+                            <b>End:</b> {{ gnosis_project.finishedAt|date("m/d/Y") }}
                         </div>
                         <hr>
                         <div class="gnosis-project-controls">
