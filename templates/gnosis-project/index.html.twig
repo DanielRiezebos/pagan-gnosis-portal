@@ -8,38 +8,59 @@
         }
     }
 </script>
+<style>
+    .gnosis-project-1 {
+        background-color: #c2a77c;
+    }
+    .gnosis-projects-box {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .gnosis-project-card {
+        padding: 1%;
+        margin: 1%;
+    }
+    .gnosis-project-controls {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
 <div class="main-content">
     <div class="row list-title-row">
-        <h1 class="list-title-name">All Gnosis Projects</h1>
+        <h1 class="list-title-name">All Gnosis-Projects</h1>
         {% if is_granted('ROLE_ADMINISTRATOR') %}
-            <button class="list-title-button"><a href="/new/gnosis/project">Create New Gnosis Project</a></button>
+            <button class="list-title-button primarybtn btn-lg btn-primary btn">
+                <a href="/new/gnosis/project" style="color: white; font-size: 1.1em;">
+                <b>+</b> Gnosis-Project
+                </a>
+            </button>
         {% endif %}
     </div>
     <div class="row">
         <div class="card card-content">
-            <table class="gnosis-projects-table">
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+            <div class="gnosis-projects-box">
                 {% for gnosis_project in gnosis_projects %}
-                <tr>
-                    <td>{{ gnosis_project.title }}</td>
-                    <td>{{ gnosis_project.description }}</td>
-                    <td>{{ gnosis_project.createdAt|date("m/d/Y") }}</td>
-                    <td>{{ gnosis_project.finishedAt|date("m/d/Y") }}</td>
-                    {% if is_granted('ROLE_ADMINISTRATOR') %}
-                        <td><a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a></td>
-                        <td><a href="/delete/gnosis/project/{{ gnosis_project.id }}" onClick="return confirmGnosisProjectDeletion(event)">{{ include("assets/trashcan.html.twig") }}</a></td>                
-                    {% endif %}
-                    {% if gnosis_project.isClosed %}                
-                        <td><a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a></td>
-                    {% else %}
-                        <td><a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a></td>
-                    {% endif %}
-                </tr>
+                    <div class="card gnosis-project-card gnosis-project-{{ gnosis_project.isClosed }}">
+                        <div style="text-align: center"><h3>{{ gnosis_project.title }}</h3></div>
+                        <div class="gnosis-project-dates">
+                            <b>Start:</b> {{ gnosis_project.createdAt|date("m/d/Y") }}
+                            <b>End:</b> {{ gnosis_project.finishedAt|date("m/d/Y") }}
+                        </div>
+                        <hr>
+                        <div class="gnosis-project-controls">
+                            {% if is_granted('ROLE_ADMINISTRATOR') %}
+                                <a href="/update/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/pencil.html.twig") }}</a>
+                                <a href="/delete/gnosis/project/{{ gnosis_project.id }}" onClick="return confirmGnosisProjectDeletion(event)">{{ include("assets/trashcan.html.twig") }}</a>
+                            {% endif %}
+                            {% if gnosis_project.isClosed %}                
+                                <a href="/results/gnosis/project/{{ gnosis_project.id }}">{{ include("assets/results.html.twig") }}</a>
+                            {% else %}
+                                <a href="/create/gnosis/project/entry/{{ gnosis_project.id }}">{{ include("assets/notepad.html.twig") }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endfor %}
-            </table>
+            </div>
         </div>
     </div>
 </div>

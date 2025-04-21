@@ -22,12 +22,11 @@ class GnosisProjectType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('is_closed', ChoiceType::class, [
-                'label' => 'Close this Gnosis Project?',
-                'required' => false,
-                'mapped' => false,
+                'label' => 'Gnosis Project accessibility',
+                'mapped' => true,
                 'choices'  => [
-                    'Yes' => true,
-                    'No' => false,
+                    'Closed' => 1,
+                    'Open' => 0,
                 ],
             ]);
     }

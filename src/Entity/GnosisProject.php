@@ -143,7 +143,7 @@ class GnosisProject
         return $this->is_closed;
     }
 
-    public function setClosed(bool $is_closed): static
+    public function setIsClosed(bool $is_closed): static
     {
         $this->is_closed = $is_closed;
 

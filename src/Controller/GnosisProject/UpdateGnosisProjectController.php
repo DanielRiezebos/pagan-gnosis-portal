@@ -10,6 +10,7 @@ use App\Form\GnosisProjectType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\GnosisProject\Saver;
 use App\Repository\GnosisProjectRepository;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class UpdateGnosisProjectController extends AbstractController
 {
@@ -28,7 +29,7 @@ class UpdateGnosisProjectController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $gnosisProjectData = $form->getData();
-            $gnosisProjectData->setClosed($request->request->all()['gnosis_project']['is_closed']);
+            $gnosisProjectData->setIsClosed($request->request->all()['gnosis_project']['is_closed']);
             $saver->save($gnosisProjectData);
 
             return $this->redirectToRoute('gnosis-projects');
