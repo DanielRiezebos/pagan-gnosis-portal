@@ -10,6 +10,7 @@ use App\Form\GnosisProjectType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\GnosisProject\Saver;
 use App\Repository\GnosisProjectRepository;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class UpdateGnosisProjectController extends AbstractController
 {
