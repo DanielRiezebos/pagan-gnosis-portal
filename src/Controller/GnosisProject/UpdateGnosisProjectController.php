@@ -18,7 +18,6 @@ class UpdateGnosisProjectController extends AbstractController
     {
         /** @var GnosisProject gnosisProject */
         $gnosisProject = $gnosisProjectRepository->findOneBy(['id' => $id]);
-        // dd($gnosisProject);
 
         if (!$gnosisProject) {
             return $this->redirectToRoute('gnosis-projects');
