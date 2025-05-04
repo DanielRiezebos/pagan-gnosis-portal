@@ -40,12 +40,22 @@
     margin-bottom: -15px;
     font-weight: 555;
 }
+#commentControls {    
+    opacity: 0.33;
+    font-size: 1.8em;
+    display: flex;
+    align-content: space-between;
+}
+#resultCommentDeleteButton{
+    cursor: pointer;
+    font-size: 0.6em;
+    padding-top: 10px;
+    margin-left: 5px;
+}
 #resultCommentReplyButton {
     cursor: pointer;
-    font-size: 1.875em;
-    opacity: 0.33;
 }
-#resultCommentReplyButton:hover {
+#commentControls:hover {
     opacity: 1;
 }
 .row {
@@ -139,13 +149,35 @@
             .catch(error => console.error('Error:', error));
         });
     }
+    function deleteComment(commentId) {
+        confirm('Are you sure that you want to delete this comment? This action cannot be undone.');
+        fetch('/result/comment/remove/' + commentId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify({ userId:"{{ app.user.id }}", commentId:commentId}),
+        }).then(response => {
+            if (response.status == 200) {
+                location.reload();
+            }
+        }).catch(error => console.error('Error:', error));
+    }
 </script>
 {% macro render_comment_tree(resultComments) %}
     {% for resultComment in resultComments %}
         <div class="card card-content" id="comment-{{ resultComment.id }}" style="margin: 12px">
             <div class="comment-header">
                 <h4 id="resultCommentUser">{{ resultComment.user }}</h4>
-                <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+                <div id="commentControls" {{ (resultComment.deleted_at is not null) ? 'style="padding: 0.8em;"' : '' }}>
+                    {% if resultComment.deleted_at is null %}
+                        <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+                        {% if is_granted('ROLE_ADMINISTRATOR') or resultComment.user_id == app.user.id %}
+                            <div id="resultCommentDeleteButton" onClick="deleteComment('{{ resultComment.id }}')">🗑</div>
+                        {% endif %}
+                    {% endif %}
+                </div>                
             </div>
             <div class="comment-content"> 
                 <p>
