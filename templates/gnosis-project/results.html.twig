@@ -148,6 +148,18 @@
     }
     function deleteComment(commentId) {
         console.log('Deleting comment #' + commentId);
+        fetch('/result/comment/remove/' + commentId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify({ userId:"{{ app.user.id }}", commentId:commentId}),
+        }).then(response => {
+            if (response.status == 200) {
+                location.reload();
+            }
+        }).catch(error => console.error('Error:', error));
     }
 </script>
 {% macro render_comment_tree(resultComments) %}

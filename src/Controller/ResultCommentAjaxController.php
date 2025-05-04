@@ -51,4 +51,24 @@ class ResultCommentAjaxController extends AbstractController
 
         return new JsonResponse(['message' => 'Comment added!'], 200);
     }
+
+    #[Route('/result/comment/remove/{commentId}', name: 'result_comment_ajax_remove', methods: ['POST'])]
+    public function removeComment(Request $request, EntityManagerInterface $entityManager)
+    {
+        $requestContent = json_decode($request->getContent(), true);
+        $user = $entityManager->getRepository(User::class)->find($requestContent['userId']);
+        $resultComment = $entityManager->getRepository(ResultComment::class)->find($requestContent['commentId']);
+
+        // If $user is not an administrator, nor author of the resultcomment, then return with an error.
+        if ($user->getRole()->getTitle() !== 'ROLE_ADMINISTRATOR') {
+            if ($resultComment->getUser()->getId() !== $user->getId()) {
+                return new JsonResponse(['error' => 'User is neither an Adminstrator nor Result Comment author'], 403);
+            }
+        }
+
+        $entityManager->remove($resultComment);
+        $entityManager->flush();
+
+        return new JsonResponse('success');
+    }
 }

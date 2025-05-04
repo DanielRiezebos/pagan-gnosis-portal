@@ -24,14 +24,11 @@ class ResultComment
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: self::class)]
     private ?self $ParentComment = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
-
-    // #[ORM\OneToOne(targetEntity: self::class, mappedBy: 'ResultComment', cascade: ['persist', 'remove'])]
-    // private ?self $resultComment = null;
 
     public function getId(): ?int
     {
