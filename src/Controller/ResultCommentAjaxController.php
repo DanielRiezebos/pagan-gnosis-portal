@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\GnosisProject;
 use App\Entity\ResultComment;
 use App\Entity\User;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -66,8 +68,8 @@ class ResultCommentAjaxController extends AbstractController
             }
         }
 
-        // TODO: Remove child comments from the chosen $resultComment also.
-        $entityManager->remove($resultComment);
+        $resultComment->setDeletedAt(new DateTimeImmutable());
+        $entityManager->persist($resultComment);
         $entityManager->flush();
 
         return new JsonResponse('success');

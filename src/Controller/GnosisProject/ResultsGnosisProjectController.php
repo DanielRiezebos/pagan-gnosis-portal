@@ -63,11 +63,12 @@ class ResultsGnosisProjectController extends AbstractController
             }
 
             $displayComments[] = [
-                'id'      => $comment->getId(),
-                'user'    => $comment->getUser()->getUsername(),
-                'user_id' => $comment->getUser()->getId(),
-                'content' => $comment->getContent(),
-                'children' => $this->getChildrenIfItHasAnyFrom($resultCommentRepository, $comment)
+                'id'       => $comment->getId(),
+                'user'     => is_null($comment->getDeletedAt()) ? $comment->getUser()->getUsername() : 'Deleted comment',
+                'user_id'  => $comment->getUser()->getId(),
+                'content'  => is_null($comment->getDeletedAt()) ? $comment->getContent() : 'This comment has been deleted',
+                'children' => $this->getChildrenIfItHasAnyFrom($resultCommentRepository, $comment),
+                'deleted_at' => $comment->getDeletedAt()
             ];
 
             $this->processedCommentIds[] = $comment->getId();
@@ -101,10 +102,11 @@ class ResultsGnosisProjectController extends AbstractController
         foreach ($resultCommentRepository->getAllChildrenFrom($comment) as $childComment) {
             $children[] = [
                 'id'      => $childComment->getId(),
-                'user'    => $childComment->getUser()->getUsername(),
+                'user'     => is_null($childComment->getDeletedAt()) ? $childComment->getUser()->getUsername() : 'Deleted comment',
                 'user_id' => $childComment->getUser()->getId(),
-                'content' => $childComment->getContent(),
-                'children' => $this->getChildrenIfItHasAnyFrom($resultCommentRepository, $childComment)
+                'content'  => is_null($childComment->getDeletedAt()) ? $childComment->getContent() : 'This comment has been deleted',
+                'children' => $this->getChildrenIfItHasAnyFrom($resultCommentRepository, $childComment),
+                'deleted_at' => $childComment->getDeletedAt()
             ];
             $this->processedCommentIds[] = $childComment->getId();
         }
