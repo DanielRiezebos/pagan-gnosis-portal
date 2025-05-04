@@ -66,6 +66,7 @@ class ResultCommentAjaxController extends AbstractController
             }
         }
 
+        // TODO: Remove child comments from the chosen $resultComment also.
         $entityManager->remove($resultComment);
         $entityManager->flush();
 
