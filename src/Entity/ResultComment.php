@@ -24,14 +24,15 @@ class ResultComment
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: self::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?self $ParentComment = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    // #[ORM\OneToOne(targetEntity: self::class, mappedBy: 'ResultComment', cascade: ['persist', 'remove'])]
-    // private ?self $resultComment = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deleted_at = null;
 
     public function getId(): ?int
     {
@@ -94,6 +95,18 @@ class ResultComment
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->deleted_at;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $deleted_at): static
+    {
+        $this->deleted_at = $deleted_at;
 
         return $this;
     }
