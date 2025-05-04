@@ -65,6 +65,7 @@ class ResultsGnosisProjectController extends AbstractController
             $displayComments[] = [
                 'id'      => $comment->getId(),
                 'user'    => $comment->getUser()->getUsername(),
+                'user_id' => $comment->getUser()->getId(),
                 'content' => $comment->getContent(),
                 'children' => $this->getChildrenIfItHasAnyFrom($resultCommentRepository, $comment)
             ];
@@ -101,6 +102,7 @@ class ResultsGnosisProjectController extends AbstractController
             $children[] = [
                 'id'      => $childComment->getId(),
                 'user'    => $childComment->getUser()->getUsername(),
+                'user_id' => $childComment->getUser()->getId(),
                 'content' => $childComment->getContent(),
                 'children' => $this->getChildrenIfItHasAnyFrom($resultCommentRepository, $childComment)
             ];

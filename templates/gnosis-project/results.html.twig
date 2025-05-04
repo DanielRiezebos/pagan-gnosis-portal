@@ -40,12 +40,19 @@
     margin-bottom: -15px;
     font-weight: 555;
 }
-#resultCommentReplyButton {
+#commentControls {
     cursor: pointer;
-    font-size: 1.875em;
     opacity: 0.33;
+    font-size: 1.8em;
+    display: flex;
+    align-content: space-between;
 }
-#resultCommentReplyButton:hover {
+#resultCommentDeleteButton{
+    font-size: 0.6em;
+    padding-top: 10px;
+    margin-left: 5px;
+}
+#commentControls:hover {
     opacity: 1;
 }
 .row {
@@ -139,13 +146,21 @@
             .catch(error => console.error('Error:', error));
         });
     }
+    function deleteComment(commentId) {
+        console.log('Deleting comment #' + commentId);
+    }
 </script>
 {% macro render_comment_tree(resultComments) %}
     {% for resultComment in resultComments %}
         <div class="card card-content" id="comment-{{ resultComment.id }}" style="margin: 12px">
             <div class="comment-header">
                 <h4 id="resultCommentUser">{{ resultComment.user }}</h4>
-                <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+                <div id="commentControls">
+                    <div id="resultCommentReplyButton" onClick="showReplyForm('comment-{{ resultComment.id }}')">↵</div>
+                    {% if is_granted('ROLE_ADMINISTRATOR') or resultComment.user_id == app.user.id %}
+                        <div id="resultCommentDeleteButton" onClick="deleteComment('{{ resultComment.id }}')">🗑</div>
+                    {% endif %}
+                </div>
             </div>
             <div class="comment-content"> 
                 <p>
