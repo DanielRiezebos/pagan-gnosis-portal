@@ -1,17 +1,38 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+<style>
+    #intro-content {
+        display: flex;
+        align-items: center;
+    }
+
+    #intro-content img {
+        height: auto;
+        display: block;
+    }
+</style>
 <div class="main-content">
-        <p>Greetings, fellow seekers of ancient wisdom and spiritual insight!</p>
-        <p>We are delighted to welcome you to the Pagan Gnosis Portal, a sacred space dedicated to the sharing and exploration of Pagan spiritual experiences.<br>
-        Our mission is to foster a vibrant community where we can collectively delve into the mysteries of the Gods we worship and deepen our understanding of their divine nature.</p>
-
-        <p>Here, you will find a rich tapestry of personal narratives, ritual practices, and theological reflections, all contributing to the construction of a meaningful and coherent Pagan theology.<br>
-        Whether you are new to the path or a seasoned practitioner, your experiences and insights are invaluable to our collective journey.</p>
-
-        <p>Join us as we honor the old ways and discover new truths, building bridges between past and present, individual and community, the mortal and the divine.<br>
-        Together, let us celebrate our diverse traditions, share our spiritual awakenings, and enrich our understanding of the Gods who guide and inspire us.</p>
-
-        <p>May this portal be a beacon of knowledge, a source of inspiration, and a testament to the enduring power of Pagan spirituality.<br>
-        <italic>Blessed be! 🙏🏼</strong></p>
+        <div class="row list-title-row">
+            <h1 class="list-title-name">Welcome to the PaganGnosisPortal!</h1>
+        </div>
+        <div class="row">
+                <div class="card" style="padding: 3%;font-size: 110%;margin-bottom: 1%;">
+                        <div id="intro-content">
+                                <div class="card-content" style="width: 200%;">
+                                        <p>We are delighted to hail you into the PaganGnosisPortal, an online space dedicated to the sharing, exploration and ultimately the understanding of our Pagan spiritual experiences. Our mission is to foster a vibrant community where we can collectively delve into the mysteries of the Gods we worship and deepen our understanding of their divine nature.</p>
+                                        <b>Why are we doing this?</b>
+                                        <p>We believe that the root of any religious tradition lies in the spiritual experiences that humans have and humans remember. They remember them through stories, myths, legends, norms and values. Given that Pagan religious tradition has been forbidden, forgotten and destroyed we mostly no longer have access to the original stories that once explained facets of the religion that mattered to our ancestors.</p>
+                                        <p>However, what mortal hands cannot make illegal are the very Gods & Goddesses themselves. Through our spiritual experiences we get to know them. In this Portal, we can analyze and talk about those experiences, anonymously.</p>
+                                        <b>What are we doing?</b>
+                                        <p>In this Portal, we will host Gnosis-Projects. These are projects that involve one, or several, specific deities that we will be gnostically investigating for a set time. We ask of you to work with the deities in this set time and to share your experiences as rich as you can with us in the projects. Afterwards, the experiences will be shared anonymously and will be analyzed in a result page.</p>                        
+                                        <p>Further discussions can be had on the same result page. We ask of you some courtesy when engaging with your fellow Pagans within the PaganGnosisPortal. Any breaches of conduct will result in your removal from this website.</p>
+                                        <p>May our Portal be a beacon of knowledge, a source of inspiration, and a testament to the enduring power of our Pagan spirituality.</p>
+                                </div>
+                                <div>
+                                        <img src="{{ asset('images/hometree.png') }}" alt="Welcome!"/>
+                                </div>
+                        </div>
+                </div>                
+        </div>
 </div>
 {% endblock %}
