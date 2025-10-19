@@ -35,6 +35,7 @@ security:
     access_control:
         # All you Pagans ought to login
         - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/registration, roles: PUBLIC_ACCESS }
 
         # Only ROLE_ADMINISTRATOR Users are allowed at these specific routes
         - { path: ^/users, roles: ROLE_ADMINISTRATOR}

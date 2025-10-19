@@ -21,6 +21,9 @@ class Role
     #[ORM\Column(length: 255)]
     private ?string $Description = null;
 
+    public const RoleUser = 'ROLE_USER';
+    public const RoleAdministrator = 'ROLE_ADMINISTRATOR';
+
     /**
      * @var Collection<int, User>
      */
