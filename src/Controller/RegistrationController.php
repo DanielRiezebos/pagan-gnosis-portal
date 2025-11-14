@@ -25,10 +25,15 @@ class RegistrationController extends AbstractController
     {
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
+        $email = $request->request->get('_email');
         $repeatPassword = $request->request->get('_repeat-password');
 
         // Validate existence of variables
-        if (!$username || !$password || !$repeatPassword) {
+        if (!$username ||
+            !$password ||
+            !$email ||
+            !$repeatPassword
+        ) {
             $this->addFlash('error', 'Please fill in all fields.');
             return $this->redirectToRoute('get_registration');
         }
@@ -42,6 +47,7 @@ class RegistrationController extends AbstractController
 
         $user = new User();
         $user->setUsername($username);
+        $user->setEmail($email);
         $user->setRole($roleRepository->findOneBy(['Title' => Role::RoleUser]));
         if (!$saver->save($user, $password)) {
             $this->addFlash('error', 'Something went wrong while registering');
