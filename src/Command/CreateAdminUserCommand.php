@@ -44,6 +44,7 @@ class CreateAdminUserCommand extends Command
         $firstAdmin = new User();
         $adminRole = $this->roleRepository->getByTitle('ROLE_ADMINISTRATOR');
         $firstAdmin->setUsername('FirstAdmin');
+        $firstAdmin->setEmail($_ENV['SUPER_ADMIN_EMAIL']);
         $hashedPassword = $this->passwordHasher->hashPassword($firstAdmin, $_ENV['SUPER_ADMIN_PASSWD']);
         $firstAdmin->setPassword($hashedPassword);
         $firstAdmin->setRole($adminRole);

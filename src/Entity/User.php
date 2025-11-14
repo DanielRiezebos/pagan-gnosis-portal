@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements PasswordAuthenticatedUserInterface, UserInterface
@@ -17,15 +17,18 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Username = null;
+    #[ORM\Column(name: "username", length: 255)]
+    private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Password = null;
+    #[ORM\Column(name: "email", length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(name: "password", length: 255)]
+    private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Role $Role = null;
+    #[ORM\JoinColumn(nullable: false, name: "role_id")]
+    private ?Role $role = null;
 
     /**
      * @var Collection<int, GnosisEntry>
@@ -52,34 +55,46 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function getUsername(): ?string
     {
-        return $this->Username;
+        return $this->username;
     }
 
-    public function setUsername(string $Username): static
+    public function setUsername(string $username): static
     {
-        $this->Username = $Username;
+        $this->username = $username;
+        
+        return $this;
+    }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $Email): static
+    {
+        $this->email = $Email;
+        
         return $this;
     }
 
     public function getPassword(): ?string
     {
-        return $this->Password;
+        return $this->password;
     }
 
     public function setPassword(string $Password): static
     {
-        $this->Password = $Password;
-
+        $this->password = $Password;
+        
         return $this;
     }
 
     public function getRole(): ?Role
     {
-        return $this->Role;
+        return $this->role;
     }
 
-    /** 
+    /**
      * To clarify: I had to implement this due to the Interface by Symfony but I had an idea on how to work with the Role idea partially implemented.
      * We'll see how much it will develop further, but for now this satisfies the Interface requirements.
      * */
@@ -90,8 +105,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function setRole(?Role $Role): static
     {
-        $this->Role = $Role;
-
+        $this->role = $Role;
+        
         return $this;
     }
 
@@ -118,7 +133,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if (!$this->gnosisEntries->contains($gnosisEntry)) {
             $this->gnosisEntries->add($gnosisEntry);
-            $gnosisEntry->setUserId($this);
+            $gnosisEntry->setUser($this);
         }
 
         return $this;
@@ -128,8 +143,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if ($this->gnosisEntries->removeElement($gnosisEntry)) {
             // set the owning side to null (unless already changed)
-            if ($gnosisEntry->getUserId() === $this) {
-                $gnosisEntry->setUserId(null);
+            if ($gnosisEntry->getUser() === $this) {
+                $gnosisEntry->setUser(null);
             }
         }
 

@@ -52,44 +52,47 @@
             <div class="login-part">
                 <div class="login-form">
                     <div class="introduction">
-                        <h1>PaganGnosisPortal</h1>
-                        <p style="margin-top: -20px;"><em> - For the construction of a Divine Database</em></p>
+                        <h3>You can register here below!</h3>
                     </div>
-                    <form method="post">
-                        {% if error %}
+                    {# templates/base.html.twig or in your success page #}
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="flash-message flash-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <form method="POST" action="{{ path('post_registration') }}">
+                        {# {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% endif %}
+                        {% endif %} #}
     
                         <div class="card card-content logincard">
-                            <h1 class="h3 mb-3 font-weight-normal">Welcome! Please log in to the Portal using your credentials below.</h1>
-                            <p class="">If you would like to join our portal, you can request an account <u><a href="/registration">here</a></u>.</p>
+                            <label for="username">Emailaddress</label>
+                            <input type="text" style="background: white;" name="_email" id="email" class="form-control" autocomplete="email" required autofocus>
+                            
                             <label for="username">Username</label>
-                            <input type="text" style="background: white;" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+                            <input type="text" style="background: white;" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+                            <p class="">Please be considerate with your chosen username.</p>
+
                             <label for="password">Password</label>
                             <input type="password" style="background: white;" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-    
+                            
+                            <label for="repeat-password">Repeat password</label>
+                            <input type="password" style="background: white;" name="_repeat-password" id="repeat-password" class="form-control" autocomplete="repeat-password" required>
+
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('authenticate') }}"
-                            >
-    
-                            {#
-                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                                See https://symfony.com/doc/current/security/remember_me.html
-    
-                                <div class="checkbox mb-3">
-                                    <input type="checkbox" name="_remember_me" id="_remember_me">
-                                    <label for="_remember_me">Remember me</label>
-                                </div>
-                            #}
-    
-                            <button class="btn btn-lg btn-primary btn -outline" type="submit" style="width: 100px;margin-top: 10px; background: #e6c083">
-                                Sign in
+                            >    
+                            <button class="btn btn-lg btn-primary btn -outline" type="submit" style="width: 130px;margin-top: 10px; background: #e6c083">
+                                Register now
                             </button>
                         </div>
+                        <a href="/login">Back to login</a>
                     </form>
                 </div>
             </div>
-            <div class="image-part"><img src="{{ asset('images/loginwood.jpg') }}" alt="Summer tree in the forest"></div>
+            <div class="image-part"><img src="{{ asset('images/registrationwood.jpg') }}" alt="Summer tree in the forest"></div>
         </div>
     </body>
 </html>

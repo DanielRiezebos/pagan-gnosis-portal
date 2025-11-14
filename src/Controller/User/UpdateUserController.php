@@ -33,7 +33,7 @@ class UpdateUserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $newUser = $form->getData();
 
-            if (!$saver->save($newUser, $form->get('Password')->getData())) {
+            if (!$saver->save($newUser, $form->get('password')->getData())) {
                 # TODO: Make error message here
                 return $this->redirectToRoute('app_uapp_update_usersers');
             }
