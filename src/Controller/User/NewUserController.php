@@ -20,7 +20,7 @@ class NewUserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('Password')->getData();
+            $password = $form->get('password')->getData();
 
             // If no password has been entered, return back to the user creation route
             if (empty($password)) {
