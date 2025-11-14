@@ -21,7 +21,7 @@ class Saver
     {
         if (!empty($password)) {
             $user->setPassword($this->passwordHasher->hashPassword($user, $password));
-        }        
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
