@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UpdateUserController extends AbstractController
 {
     #[Route('/update/user/{id}', name: 'app_update_user')]
-    public function update(Request $request, Saver $saver, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher ,int $id): Response
+    public function update(Request $request, Saver $saver, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, int $id): Response
     {
         /** @var User user */
         $user = $userRepository->findOneBy(['id' => $id]);

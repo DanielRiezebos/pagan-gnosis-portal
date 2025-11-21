@@ -25,7 +25,7 @@ class UpdateGnosisProjectController extends AbstractController
         }
 
         $form = $this->createForm(GnosisProjectType::class, $gnosisProject);
-        
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $gnosisProjectData = $form->getData();
@@ -37,6 +37,7 @@ class UpdateGnosisProjectController extends AbstractController
 
         return $this->render('gnosis-project/gnosis-project.html.twig', [
             'form' => $form,
+            'title' => 'Update Gnosis-Project'
         ]);
     }
 }

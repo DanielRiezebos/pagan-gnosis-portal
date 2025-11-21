@@ -21,7 +21,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registration', name: 'post_registration', methods: ['POST'])]
-    public function registerAction(Request $request, Saver $saver, EntityManagerInterface $entityManager) 
+    public function registerAction(Request $request, Saver $saver, EntityManagerInterface $entityManager)
     {
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
@@ -49,6 +49,7 @@ class RegistrationController extends AbstractController
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setRole($roleRepository->findOneBy(['Title' => Role::RoleUser]));
+        $user->setStrikes(0);
         if (!$saver->save($user, $password)) {
             $this->addFlash('error', 'Something went wrong while registering');
             return $this->redirectToRoute('get_registration');
