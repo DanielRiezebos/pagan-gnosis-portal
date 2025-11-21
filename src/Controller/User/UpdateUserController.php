@@ -2,22 +2,21 @@
 
 namespace App\Controller\User;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
+use App\Form\UserType;
+use App\Service\User\Saver;
+use App\Repository\UserRepository;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\User;
-use App\Service\User\Saver;
-use App\Form\UserType;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UpdateUserController extends AbstractController
 {
     #[Route('/update/user/{id}', name: 'app_update_user')]
-    public function update(Request $request, Saver $saver, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher ,int $id): Response
+    public function update(Request $request, Saver $saver, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, int $id): Response
     {
         /** @var User user */
         $user = $userRepository->findOneBy(['id' => $id]);

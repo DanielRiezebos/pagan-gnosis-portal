@@ -26,6 +26,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(name: "password", length: 255)]
     private ?string $password = null;
 
+    #[ORM\Column(name: "strikes")]
+    private ?int $strikes = null;
+
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false, name: "role_id")]
     private ?Role $role = null;
@@ -107,6 +110,18 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         $this->role = $Role;
         
+        return $this;
+    }
+
+    public function getStrikes() : int
+    {
+        return $this->strikes;
+    }
+
+    public function setStrikes(int $strikes)
+    {
+        $this->strikes = $strikes;
+
         return $this;
     }
 
