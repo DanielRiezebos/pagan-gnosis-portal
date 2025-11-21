@@ -29,6 +29,7 @@ class NewGnosisProjectController extends AbstractController
 
         return $this->render('gnosis-project/gnosis-project.html.twig', [
             'form' => $form,
+            'title' => 'Add new Gnosis-Project'
         ]);
     }
 }
