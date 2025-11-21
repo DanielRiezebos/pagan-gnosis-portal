@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+    <div class="row list-title-row">
+        <h1 class="list-title-name">Settings</h1>  
+    </div>
+    <div class="row">
+        <div class="card card-content">
+            <table class="users-table">
+                {% for setting in settings %}
+                    <tr>
+                        <td id="settingkey-{{loop.index}}">{{setting.settingkey}}: <textarea id="settingvalue-{{loop.index}}">{{setting.settingvalue}}</textarea></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button class="form-confirm-button primarybtn btn-lg btn-primary btn" type="submit">Save Settings</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
