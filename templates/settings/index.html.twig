@@ -1,19 +1,51 @@
 {% extends 'base.html.twig' %}
 {% block content %}
 <div class="main-content">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('submit_settings').addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const settingsValues = document.getElementsByClassName('settingvalue');
+                let payLoad = [];
+                for (let i = 0; i < settingsValues.length; i++) {
+                    payLoad.push({key:settingsValues.item(i).id, value:settingsValues.item(i).value});
+                }
+                
+                fetch('/settings/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify(payLoad),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert('Settings have been saved!');
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+                });
+        });
+    </script>
     <div class="row list-title-row">
         <h1 class="list-title-name">Settings</h1>  
     </div>
     <div class="row">
         <div class="card card-content">
-            <table class="users-table">
+            <table class="settings-table">
                 {% for setting in settings %}
                     <tr>
-                        <td id="settingkey-{{loop.index}}">{{setting.settingkey}}: <textarea id="settingvalue-{{loop.index}}">{{setting.settingvalue}}</textarea></td>
+                        <td id="settingkey-{{setting.settingkey}}">{{setting.settingkey}}: <textarea class="settingvalue" id="{{setting.settingkey}}">{{setting.settingvalue}}</textarea></td>
                     </tr>
                 {% endfor %}
             </table>
-            <button class="form-confirm-button primarybtn btn-lg btn-primary btn" type="submit">Save Settings</button>
+            <button id="submit_settings" class="form-confirm-button primarybtn btn-lg btn-primary btn" type="submit">Save Settings</button>
         </div>
     </div>
 </div>
