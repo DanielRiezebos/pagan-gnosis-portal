@@ -4,6 +4,19 @@
     .gnosis-entries-table {
         width: 100%;
     }
+    .gnosis-entries-table textarea {
+        color: red;
+    }
+    #editModal {
+        width: 75%; !important;
+        height: 75%;
+    }
+    #editModal textarea {
+        height: 100%;
+    }
+    #editModal::backdrop {
+        background-color: rgba(111, 106, 76, 0.5);
+    }
 </style>
 <script>
     function confirmGnosisEntryDeletion(event) {
@@ -12,7 +25,53 @@
             event.preventDefault();
         }
     }
+    function beginEditExistingGnosis(gnosisEntryId) {
+        const modal = document.getElementById('editModal');
+        const editGnosis = document.getElementById('editGnosis');
+        const editModalGnosisId = document.getElementById('editModalGnosisId');
+        const gnosisEntryToEdit = document.getElementById(gnosisEntryId).innerHTML;
+        
+        editModalGnosisId.value = gnosisEntryId;
+        editGnosis.value = gnosisEntryToEdit;
+        modal.showModal();
+    }
+    function completeEditExistingGnosis() {
+        // ... do something to PUT the editedGnosis into the databas
+        console.log();
+        const gnosisId = document.getElementById('editModalGnosisId').value.replace('gnosis_entry_', '');
+        fetch('/update/gnosis/entry/' + gnosisId, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify({ content:reply_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}", parentId:parentComment}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                document.getElementById('reply-content').value = "";
+                document.getElementById('comment-content').value = "";
+                location.reload();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
+        document.getElementById('editModal').close();
+        location.reload();
+    }
 </script>
+<dialog id="editModal">
+    <input type="hidden" id="editModalGnosisId" />
+    <h3>Edit your Gnosis</h3>
+    <textarea id="editGnosis"></textarea>
+    <div class="col">
+        <button type="submit" class="form-confirm-button primarybtn btn-lg btn-primary btn" onClick="completeEditExistingGnosis()">Save Gnosis</button>
+        <button type="button" onClick="document.getElementById('editModal').close()" class="form-cancel-button primarybtn btn-lg btn-primary btn">Cancel</button>
+    </div>
+</dialog>
 <div class="main-content">
     <div class="row list-title-row">
         <h1 class="list-title-name">Add a new Gnosis Entry</h1>    
@@ -37,11 +96,13 @@
                         <th>Date</th>
                         <th>Gnosis</th>
                         <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
+                        <th><!-- Empty table header for    a e s t h e t i c    reasons --></th>
                         {% for currentEntry in currentEntries %}            
                             <tr>
                                 <td>{{ currentEntry.createdAt|date('Y-m-d') }}: </td>
-                                <td>{{ currentEntry.gnosis }}</td>
+                                <td id="gnosis_entry_{{currentEntry.id}}">{{ currentEntry.gnosis }}</td>
                                 <td><a href="/delete/gnosis/project/entry/{{ currentEntry.id }}" onClick="return confirmGnosisEntryDeletion(event)">{{ include("assets/trashcan.html.twig") }}</a></td>
+                                <td><a href="#" onClick="return beginEditExistingGnosis('gnosis_entry_{{currentEntry.id}}')">{{ include("assets/pencil.html.twig") }}</a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -56,7 +117,7 @@
                     {{ form_row(form.gnosis) }}
                 </div>
             </div>
-            <button type="submit" class="form-confirm-button primarybtn btn-lg btn-primary btn" id="save-gnosis-entry">Save New Entry</button>
+            <button type="submit" class="form-confirm-button primarybtn btn-lg btn-primary btn" id="gnosis-entry-action">Save New Entry</button>
         </div>
     {{ form_end(form) }}
     </div>
