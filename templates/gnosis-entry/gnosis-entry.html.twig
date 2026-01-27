@@ -25,6 +25,7 @@
             event.preventDefault();
         }
     }
+
     function beginEditExistingGnosis(gnosisEntryId) {
         const modal = document.getElementById('editModal');
         const editGnosis = document.getElementById('editGnosis');
@@ -35,32 +36,31 @@
         editGnosis.value = gnosisEntryToEdit;
         modal.showModal();
     }
+
     function completeEditExistingGnosis() {
         // ... do something to PUT the editedGnosis into the databas
-        console.log();
+        const editGnosis = document.getElementById('editGnosis').value;
         const gnosisId = document.getElementById('editModalGnosisId').value.replace('gnosis_entry_', '');
+
         fetch('/update/gnosis/entry/' + gnosisId, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
             },
-            body: JSON.stringify({ content:reply_content, userId:"{{ app.user.id }}", gnosisProjectId:"{{ gnosisProject.id }}", parentId:parentComment}),
-        })
-        .then(response => response.json())
+            body: JSON.stringify({ content:editGnosis, gnosis_id:gnosisId }),
+        }).then(response => response.json())
         .then(data => {
             if (data.error) {
                 alert(data.error);
             } else {
-                document.getElementById('reply-content').value = "";
-                document.getElementById('comment-content').value = "";
                 location.reload();
             }
         })
         .catch(error => console.error('Error:', error));
 
         document.getElementById('editModal').close();
-        location.reload();
+        setTimeout(location.reload(), 2345);
     }
 </script>
 <dialog id="editModal">

@@ -17,7 +17,7 @@ use function Symfony\Component\Clock\now;
 class ResultCommentAjaxController extends AbstractController
 {
     #[Route('/result/comment', name: 'result_comment_ajax', methods: ['POST'])]
-    public function postComment(Request $request, EntityManagerInterface $entityManager)
+    public function postComment(Request $request, EntityManagerInterface $entityManager) : JsonResponse
     {
         $commentData = json_decode($request->getContent(), true);        
         $commentDataContent = $commentData['content'];
