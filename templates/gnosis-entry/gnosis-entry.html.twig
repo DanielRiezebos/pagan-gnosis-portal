@@ -38,12 +38,11 @@
     }
 
     function completeEditExistingGnosis() {
-        // ... do something to PUT the editedGnosis into the databas
         const editGnosis = document.getElementById('editGnosis').value;
         const gnosisId = document.getElementById('editModalGnosisId').value.replace('gnosis_entry_', '');
 
         fetch('/update/gnosis/entry/' + gnosisId, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
