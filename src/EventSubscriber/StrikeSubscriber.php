@@ -2,11 +2,12 @@
 
 namespace App\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Entity\User;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class StrikeSubscriber implements EventSubscriberInterface
 {
@@ -22,11 +23,13 @@ class StrikeSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $token = $this->tokenStorage->getToken();
+
+        /* User $user */
         if (!$token || !is_object($user = $token->getUser())) {
             return;
         }
-        // Assuming your User entity has a getStrikes() method
-        if (method_exists($user, 'getStrikes') && $user->getStrikes() > 2) {
+
+        if (method_exists($user, 'getStrikes') && $user->getStrikes() >= USER::MAX_STRIKES) {
             // Invalidate session
             $event->getRequest()->getSession()->invalidate();
             // Redirect to logout or login page\

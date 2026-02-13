@@ -53,4 +53,19 @@ class MailingService
                 'emailadress' => $newUser->getEmail()
             ]));
     }
+
+    public function sendUserBannedEmail(User $bannedUser)
+    {
+        $adminEmail = $this->getAdminEmail();
+
+        $this->mailer->send((new TemplatedEmail())
+            ->from($adminEmail)
+            ->to(new Address($bannedUser->getEmail()))
+            ->subject('You have been banned from the Pagan Gnosis Portal')
+            ->htmlTemplate('emails/banned.html.twig')
+            ->context([
+                'username' => $bannedUser->getUsername(),
+                'adminEmailAddress' => $adminEmail
+            ]));
+    }
 }
