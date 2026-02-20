@@ -16,6 +16,12 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
+    // This function returns all the tags by label as a comma seperated string.
+    public function findAllImploded() : string 
+    {
+        return implode(',', array_column($this->createQueryBuilder('tag')->select('tag.label')->getQuery()->getResult(), 'label'));
+    }
+
     //    /**
     //     * @return Tag[] Returns an array of Tag objects
     //     */
