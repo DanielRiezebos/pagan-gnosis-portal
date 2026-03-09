@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.alert('Please begin scripting here, if you please!')
+        });
+    </script>
+    <div class="row list-title-row">
+        <h1 class="list-title-name">Tags</h1>  
+    </div>
+    <div class="row">
+        <div class="card card-content">
+            <table class="settings-table">
+                <h2>Gnosis Project Tags</h2>
+                {% for tag in tags %}
+                    <tr>
+                        <td id="settingkey-{{setting.settingkey}}">{{setting.settingkey}}: <textarea class="settingvalue" id="{{setting.settingkey}}">{{setting.settingvalue}}</textarea></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button id="submit_settings" class="form-confirm-button primarybtn btn-lg btn-primary btn" type="submit">Save Settings</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
