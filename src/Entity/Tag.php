@@ -21,7 +21,8 @@ class Tag
     /**
      * @var Collection<int, GnosisProject>
      */
-    #[ORM\ManyToMany(targetEntity: GnosisProject::class, inversedBy: 'tags')]
+    #[ORM\ManyToMany(targetEntity: GnosisProject::class, mappedBy: 'tags')]
+    // #[ORM\JoinTable(name: 'gnosis_project_tag')]
     private Collection $GnosisProjects;
 
     public function __construct()

@@ -48,8 +48,8 @@ class GnosisProject
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'GnosisProjects')]
-    // #[ORM\JoinTable(name: 'gnosis_project_tag')] TODO: Check if this commented out code doesn't break the relationship 
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'GnosisProjects')]
+    // #[ORM\JoinTable(name: 'gnosis_project_tag')]
     private Collection $tags;
 
     public function __construct()
