@@ -7,6 +7,22 @@
             event.preventDefault();
         }
     }
+
+    // TODO: Zoek even wat slims voor dit GET variabel gedoe 
+    function applyFilterByTags() {
+        var checkedTags = document.querySelectorAll('input[name=gnosis_project_tag_box]:checked');
+        var getVariables = "";
+        for (var i = 0; i < checkedTags.length; i++) {
+            if (getVariables.length < 1) {
+                getVariables = "?tags[]=" + checkedTags[i].dataset.label;
+            } else {
+                getVariables = getVariables + "&tags[]=" + checkedTags[i].dataset.label;
+            }
+            
+        }
+
+        window.location.href = window.location.href + getVariables;
+    }
 </script>
 <style>
     .gnosis-project-1 {
@@ -38,6 +54,18 @@
     </div>
     <div class="row">
         <div class="card card-content">
+            <div class="col" id="tags">
+                <h2>Filter by Tag</h2>
+                <div class="gnosis_project_tags_container">
+                    {% for tag in tags %}
+                        <div class="gnosis_project_tag" onClick="applyFilterByTags()">
+                            <input type="checkbox" id="gnosis_project_Tags_{{tag.id}}" name="gnosis_project_tag_box" class="gnosis-project-tag-input" value="{{ tag.id }}" data-label="{{tag.label}}">
+                            <label class="gnosis-project-tag-label" for="gnosis_project_Tags_{{tag.id}}"><b>{{tag.label}}</b></label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr />
             <div class="gnosis-projects-box">
                 {% for gnosis_project in gnosis_projects %}
                     <div class="card gnosis-project-card gnosis-project-{{ gnosis_project.isClosed }}">

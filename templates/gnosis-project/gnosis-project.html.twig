@@ -12,30 +12,6 @@
     .col {
         margin-bottom: 10px;
     }
-    .gnosis_project_tags_container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .gnosis_project_tag {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        background: #f9dfb7;
-        margin: 10px;
-        height: 50%;
-        border-radius: 999px;
-        padding: 1.5%;
-    }
-    .gnosis-project-tag-label {
-        user-select: none;
-    }
-    .gnosis_project_tag:has(input[type="checkbox"]:checked) {
-        background: #e6c083;
-    }
-    .gnosis_project_tag input:checked {
-        background: #f9dfb7;
-        border-color: #e6c083;
-    }
 </style>
 <div class="main-content">
     <div class="row list-title-row">
@@ -54,7 +30,7 @@
                     <div class="col" id="description">
                         {{ form_row(form.Description) }}
                     </div>
-                     <div class="col" id="tags">
+                    <div class="col" id="tags">
                         <label>{{ form_label(form.Tags) }}</label>
                         <div class="gnosis_project_tags_container">
                             {% for tag in form.Tags %}
