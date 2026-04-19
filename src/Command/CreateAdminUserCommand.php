@@ -48,6 +48,7 @@ class CreateAdminUserCommand extends Command
         $hashedPassword = $this->passwordHasher->hashPassword($firstAdmin, $_ENV['SUPER_ADMIN_PASSWD']);
         $firstAdmin->setPassword($hashedPassword);
         $firstAdmin->setRole($adminRole);
+        $firstAdmin->setStrikes(0);
 
         $this->entityManager->persist($firstAdmin);
         $this->entityManager->flush();

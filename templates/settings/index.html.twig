@@ -7,11 +7,6 @@
                 event.preventDefault();
 
                 const settingsValues = document.getElementsByClassName('settingvalue');
-                const tagValues = document.getElementById('gnosis-project-tags');
-
-                console.log(tagValues.value);
-
-                debugger;
 
                 let payLoad = [];
                 for (let i = 0; i < settingsValues.length; i++) {
@@ -51,13 +46,6 @@
                         <td id="settingkey-{{setting.settingkey}}">{{setting.settingkey}}: <textarea class="settingvalue" id="{{setting.settingkey}}">{{setting.settingvalue}}</textarea></td>
                     </tr>
                 {% endfor %}
-                <h2>Gnosis Project Tags</h2>
-                <tr>
-                    <td>
-                        Gnosis Project Tags: <textarea class="tagsvalue" id="gnosis-project-tags">{{tags}}</textarea>
-                        Please seperate your tags with a comma like this: "Tag1,Tag2,Tag3" to ensure proper saving of tags. Tags are case-sensitive.
-                    </td>
-                </tr>
             </table>
             <button id="submit_settings" class="form-confirm-button primarybtn btn-lg btn-primary btn" type="submit">Save Settings</button>
         </div>

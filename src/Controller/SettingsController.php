@@ -18,8 +18,7 @@ class SettingsController extends AbstractController
     public function index(SettingsRepository $settingsRepository, TagRepository $tagRepository): Response
     {
         return $this->render('settings/index.html.twig', [
-            'settings' => $settingsRepository->findAll(),
-            'tags' => $tagRepository->findAllImploded(),
+            'settings' => $settingsRepository->findAll()
         ]);
     }
 
