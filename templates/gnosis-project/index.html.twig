@@ -3,7 +3,6 @@
 <script>
     function confirmGnosisProjectDeletion(event) {
         if (!confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
-            // Prevent navigation if the user clicks "NO"
             event.preventDefault();
         }
     }
@@ -21,8 +20,19 @@
             
         }
 
-        window.location.href = window.location.href + getVariables;
+        window.location.href = window.location.origin + window.location.pathname + getVariables;
     }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentTagsFromUrl = new URLSearchParams(window.location.search).getAll('tags[]');
+        let allTags = document.querySelectorAll('input[name=gnosis_project_tag_box]');
+
+        for(var i = 0; i < allTags.length; i++) {
+            if ( currentTagsFromUrl.includes(allTags[i].dataset.label)) {
+                allTags[i].checked = true;
+            }
+        }
+    });
 </script>
 <style>
     .gnosis-project-1 {
