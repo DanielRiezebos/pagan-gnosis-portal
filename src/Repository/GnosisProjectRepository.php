@@ -16,6 +16,10 @@ class GnosisProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, GnosisProject::class);
     }
 
+    /**
+     * @param array $tags
+     * @return array
+     */
     public function findByTags(array $tags): array
     {
         $queryBuilder = $this->createQueryBuilder('p');
@@ -27,29 +31,4 @@ class GnosisProjectRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
-
-    //    /**
-    //     * @return GnosisProject[] Returns an array of GnosisProject objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('g.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?GnosisProject
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

@@ -77,6 +77,7 @@
             </div>
             <hr />
             <div class="gnosis-projects-box">
+            {% if gnosis_projects|length > 0 %}
                 {% for gnosis_project in gnosis_projects %}
                     <div class="card gnosis-project-card gnosis-project-{{ gnosis_project.isClosed }}">
                         <div style="text-align: center"><h3>{{ gnosis_project.title }}</h3></div>
@@ -98,6 +99,9 @@
                         </div>
                     </div>
                 {% endfor %}
+            {% else %}
+                <h3>No Gnosis Projects found...</h3>
+            {% endif %}
             </div>
         </div>
     </div>

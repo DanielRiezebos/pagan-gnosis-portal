@@ -17,6 +17,6 @@ class Retriever
     public function retrieveGnosisProjectsByTags(array $tags)
     {
         $requestedTags = $this->tagRepository->findBy(['label' => $tags]);
-        return $this->gnosisProjectRepository->findByTags([$requestedTags]);
+        return $this->gnosisProjectRepository->findByTags($requestedTags);
     }
 }
