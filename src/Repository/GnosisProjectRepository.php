@@ -16,6 +16,18 @@ class GnosisProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, GnosisProject::class);
     }
 
+    public function findByTags(array $tags): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        return $queryBuilder
+                ->innerJoin('p.tags', 't')
+                ->where('t IN (:tags)')
+                ->setParameter('tags', $tags)
+                ->getQuery()
+                ->getResult();
+    }
+
     //    /**
     //     * @return GnosisProject[] Returns an array of GnosisProject objects
     //     */
