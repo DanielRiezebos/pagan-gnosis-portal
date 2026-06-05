@@ -30,6 +30,17 @@
                     <div class="col" id="description">
                         {{ form_row(form.Description) }}
                     </div>
+                    <div class="col" id="tags">
+                        <label>{{ form_label(form.Tags) }}</label>
+                        <div class="gnosis_project_tags_container">
+                            {% for tag in form.Tags %}
+                                <div class="gnosis_project_tag">
+                                    {{ form_widget(tag, {'attr': {'class': 'gnosis-project-tag-input'}}) }}
+                                    {{ form_label(tag, null, {'label_attr': {'class': 'gnosis-project-tag-label'}}) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
                 <div class="row date-row">
                     <div class="col" id="created_at">

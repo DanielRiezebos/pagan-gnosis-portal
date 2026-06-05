@@ -45,10 +45,18 @@ class GnosisProject
     #[ORM\OneToMany(targetEntity: ResultComment::class, mappedBy: 'GnosisProject', orphanRemoval: true, fetch:"EAGER")]
     private Collection $resultComments;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'GnosisProjects')]
+    // #[ORM\JoinTable(name: 'gnosis_project_tag')]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->gnosisEntries = new ArrayCollection();
         $this->resultComments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +183,33 @@ class GnosisProject
             if ($resultComment->getGnosisProject() === $this) {
                 $resultComment->setGnosisProject(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->addGnosisProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeGnosisProject($this);
         }
 
         return $this;
