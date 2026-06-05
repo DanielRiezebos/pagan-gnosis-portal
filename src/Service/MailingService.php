@@ -23,7 +23,7 @@ class MailingService
 
     public function getAdminEmail() : ?string
     {
-        return $this->settingsRepository->findOneBy(['SettingKey' => 'admin_email'])?->getSettingValue() ?? null;
+        return $this->settingsRepository->findOneBy(['SettingKey' => 'admin_email'])?->getSettingValue() ?? $_ENV['SUPER_ADMIN_EMAIL'];
     }
 
     public function sendRegistrationMailsTo(User $newUser)

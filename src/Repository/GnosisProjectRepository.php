@@ -16,28 +16,19 @@ class GnosisProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, GnosisProject::class);
     }
 
-    //    /**
-    //     * @return GnosisProject[] Returns an array of GnosisProject objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('g.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @param array $tags
+     * @return array
+     */
+    public function findByTags(array $tags): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
 
-    //    public function findOneBySomeField($value): ?GnosisProject
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $queryBuilder
+                ->innerJoin('p.tags', 't')
+                ->where('t IN (:tags)')
+                ->setParameter('tags', $tags)
+                ->getQuery()
+                ->getResult();
+    }
 }

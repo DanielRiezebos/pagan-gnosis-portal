@@ -7,6 +7,7 @@
                 event.preventDefault();
 
                 const settingsValues = document.getElementsByClassName('settingvalue');
+
                 let payLoad = [];
                 for (let i = 0; i < settingsValues.length; i++) {
                     payLoad.push({key:settingsValues.item(i).id, value:settingsValues.item(i).value});
@@ -39,6 +40,7 @@
     <div class="row">
         <div class="card card-content">
             <table class="settings-table">
+                <h2>Standard settings</h2>
                 {% for setting in settings %}
                     <tr>
                         <td id="settingkey-{{setting.settingkey}}">{{setting.settingkey}}: <textarea class="settingvalue" id="{{setting.settingkey}}">{{setting.settingvalue}}</textarea></td>

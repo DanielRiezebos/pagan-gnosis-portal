@@ -3,10 +3,36 @@
 <script>
     function confirmGnosisProjectDeletion(event) {
         if (!confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
-            // Prevent navigation if the user clicks "NO"
             event.preventDefault();
         }
     }
+
+    // TODO: Zoek even wat slims voor dit GET variabel gedoe 
+    function applyFilterByTags() {
+        var checkedTags = document.querySelectorAll('input[name=gnosis_project_tag_box]:checked');
+        var getVariables = "";
+        for (var i = 0; i < checkedTags.length; i++) {
+            if (getVariables.length < 1) {
+                getVariables = "?tags[]=" + checkedTags[i].dataset.label;
+            } else {
+                getVariables = getVariables + "&tags[]=" + checkedTags[i].dataset.label;
+            }
+            
+        }
+
+        window.location.href = window.location.origin + window.location.pathname + getVariables;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentTagsFromUrl = new URLSearchParams(window.location.search).getAll('tags[]');
+        let allTags = document.querySelectorAll('input[name=gnosis_project_tag_box]');
+
+        for(var i = 0; i < allTags.length; i++) {
+            if ( currentTagsFromUrl.includes(allTags[i].dataset.label)) {
+                allTags[i].checked = true;
+            }
+        }
+    });
 </script>
 <style>
     .gnosis-project-1 {
@@ -38,7 +64,20 @@
     </div>
     <div class="row">
         <div class="card card-content">
+            <div class="col" id="tags">
+                <h2>Filter by Tag</h2>
+                <div class="gnosis_project_tags_container">
+                    {% for tag in tags %}
+                        <div class="gnosis_project_tag" onClick="applyFilterByTags()">
+                            <input type="checkbox" id="gnosis_project_Tags_{{tag.id}}" name="gnosis_project_tag_box" class="gnosis-project-tag-input" value="{{ tag.id }}" data-label="{{tag.label}}">
+                            <label class="gnosis-project-tag-label" for="gnosis_project_Tags_{{tag.id}}"><b>{{tag.label}}</b></label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr />
             <div class="gnosis-projects-box">
+            {% if gnosis_projects|length > 0 %}
                 {% for gnosis_project in gnosis_projects %}
                     <div class="card gnosis-project-card gnosis-project-{{ gnosis_project.isClosed }}">
                         <div style="text-align: center"><h3>{{ gnosis_project.title }}</h3></div>
@@ -60,6 +99,9 @@
                         </div>
                     </div>
                 {% endfor %}
+            {% else %}
+                <h3>No Gnosis Projects found...</h3>
+            {% endif %}
             </div>
         </div>
     </div>

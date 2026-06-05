@@ -9,6 +9,9 @@ use App\Repository\UserRepository;
 use App\Service\MailingService;
 use App\Service\User\Saver;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +33,8 @@ class RegistrationController extends AbstractController
         Saver $saver,
         EntityManagerInterface $entityManager,
         MailingService $mailer,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        LoggerInterface $logger
     ) {
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
@@ -71,8 +75,12 @@ class RegistrationController extends AbstractController
         }
 
         // Send registration emails
-        $mailer->sendRegistrationMailsTo($user);
-        $mailer->sendRegistrationMailToAdmin($user);
+        try {
+            $mailer->sendRegistrationMailsTo($user);
+            $mailer->sendRegistrationMailToAdmin($user);
+        } catch (Exception $e) {
+            $logger->error($e->getMessage());
+        }
 
         return $this->redirectToRoute('finished_registration');
     }

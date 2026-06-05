@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="main-content">
+    <script>
+        function deleteTag(tagId) {
+            if (confirm('Are you sure that you want to delete this tag? This action cannot be undone!')) {
+                fetch('/delete/tag/' + tagId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({ tagId:tagId }),
+                }).then(response => {
+                    if (response.status == 200) {
+                        location.reload();
+                    }
+                }).catch(error => console.error('Error:', error));
+            }
+        }
+        
+        function saveTag() {
+            fetch('/save/tag', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ tagText:document.getElementById('tagText').value }),
+            }).then(response => {
+                if (response.status == 200) {
+                    location.reload();
+                }
+            }).catch(error => console.error('Error:', error));
+        }
+    </script>
+    <div class="row list-title-row">
+        <h1 class="list-title-name">Tags</h1>  
+    </div>
+    <div class="row">
+        <div class="card card-content">
+            <table class="settings-table">
+                {% for tag in tags %}
+                    <tr>
+                        <td id="tag-{{tag.id}}">{{tag.label}}</td>
+                        <td><a href="#" onClick="deleteTag({{ tag.id }})">{{ include("assets/trashcan.html.twig") }}</a></td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td><input type="text" id="tagText" /></td>
+                    <td><button class="list-title-button primarybtn btn-lg btn-primary btn" style="background-color: #497a16;">
+                        <a href="#" style="color: white; font-size: 0.8em;" onClick="saveTag()"><b>+</b> Tag</a>
+                    </button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
