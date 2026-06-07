@@ -35,8 +35,6 @@ class SettingsController extends AbstractController
             $entityManager->flush();
         }
 
-        // Then let us save the Gnosis Project Tags
-
         return new JsonResponse(['message' => 'Settings saved!'], 200);
     }
 }
