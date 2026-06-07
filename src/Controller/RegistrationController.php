@@ -61,7 +61,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('get_registration');
         }
     
-
         $roleRepository = $entityManager->getRepository(Role::class);
 
         $user = new User();
