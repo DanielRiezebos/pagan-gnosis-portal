@@ -76,7 +76,7 @@ class RegistrationController extends AbstractController
         // Send registration emails
         try {
             $mailer->sendRegistrationMailsTo($user);
-            $mailer->sendRegistrationMailToAdmin($user);
+            // $mailer->sendRegistrationMailToAdmin($user);
         } catch (Exception $e) {
             $logger->error($e->getMessage());
         }
